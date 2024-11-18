@@ -1,7 +1,12 @@
+#include <raylib.h>
+
+struct Cell {
+  bool state = false;
+  Color color;
+};
+
+template<int width, int height>
 class Board {
   public:
-    Board(int width, int height);
-  public:
-    const int width;
-    const int height;
+    Cell cells[width][height];
 };
