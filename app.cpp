@@ -5,6 +5,26 @@
 #include "tetrominos.hpp"
 
 
+const Color colors[10] = {Color{0,0,0,0}, Color{255,255,255,255}};
+
+void DrawTetromino(Tetromino tetromino, int x, int y) {
+  // Temp draw tetromino
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      DrawRectangle((i+x)*10,(j+y)*10,10,10,colors[tetrominos[0].shape[i][j]]);
+    }
+  }
+}
+
+void PrintTetromino(Tetromino tetromino) {
+  for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 4; i++) {
+      std::cout << (int)tetrominos[0].shape[i][j];
+    }
+    std::cout << "\n";
+  }
+}
+
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
   SetTargetFPS(60);
@@ -13,7 +33,6 @@ App::App(int windowWidth, int windowHeight) {
   const int height = 21;
   char board[width][height];
 
-  const Color colors[10] = {Color{0,0,0,0}, Color{255,255,255,255}};
 
   // Inialized board state
   for (int y = 0; y < height; y++) {
@@ -23,12 +42,6 @@ App::App(int windowWidth, int windowHeight) {
     }
   }
 
-  for (int j = 0; j < 4; j++) {
-    for (int i = 0; i < 4; i++) {
-      std::cout << (int)tetrominos[0].shape[i][j];
-    }
-    std::cout << "\n";
-  }
 
   while(!WindowShouldClose()) {
     BeginDrawing();
@@ -41,12 +54,8 @@ App::App(int windowWidth, int windowHeight) {
         }
       }
 
-      // Temp draw tetromino
-      for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-          DrawRectangle((i+4)*10,(j+4)*10,10,10,colors[tetrominos[0].shape[i][j]]);
-        }
-      }
+      DrawTetromino(tetrominos[0], 4, 4);
+
     EndDrawing();
   }
   CloseWindow();
