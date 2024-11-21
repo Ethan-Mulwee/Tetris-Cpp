@@ -62,12 +62,16 @@ App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
   SetTargetFPS(60);
 
+  Tetromino tetromino = tetrominos[0];
 
   int tetrominoX = 0;
   int tetrominoY = 0;
 
+  // Timing
   std::chrono::steady_clock clock;
-  float deltaTickTime;
+  auto lastFrameTime = clock.now();
+  std::chrono::duration<double> deltaTickTime;
+  std::chrono::duration<double> GameTimer;
   bool GameTick;
 
 
@@ -81,23 +85,36 @@ App::App(int windowWidth, int windowHeight) {
 
   // Game loop
   while(!WindowShouldClose()) {
-    // Timing
-    // std::cout << clock.now() << "\n";
+    // TODO: cleanup timing code
+    // Timing 
+    auto currentFrameTime = clock.now();
+    deltaTickTime = currentFrameTime - lastFrameTime;
+    lastFrameTime = currentFrameTime;
+    GameTimer += deltaTickTime;
+    if (GameTimer.count() > 1) {
+      GameTick = true;
+      GameTimer = std::chrono::duration<double>();
+    }
 
     // Input
     if (IsKeyPressed(KEY_RIGHT))
-      if (TetrominoFits(tetrominos[0], tetrominoX+1, tetrominoY))
+      if (TetrominoFits(tetromino, tetrominoX+1, tetrominoY))
         tetrominoX += 1;
+    if (IsKeyPressed(KEY_LEFT))
+      if (TetrominoFits(tetromino, tetrominoX-1, tetrominoY))
+        tetrominoX -= 1;
 
     // Logic
-    if (GameTick)
-    if(TetrominoFits(tetrominos[0], tetrominoX, tetrominoY+1)) {
-      tetrominoY += 1;
-    }
-    else {
-      PlaceTetromino(tetrominos[0], tetrominoX, tetrominoY);
-      tetrominoX = 0;
-      tetrominoY = 0;
+    if (GameTick) {
+      if(TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
+        tetrominoY += 1;
+      }
+      else {
+        PlaceTetromino(tetromino, tetrominoX, tetrominoY);
+        tetrominoX = 0;
+        tetrominoY = 0;
+      }
+      GameTick = false;
     }
 
     // Drawing
@@ -111,7 +128,7 @@ App::App(int windowWidth, int windowHeight) {
         }
       }
 
-      DrawTetromino(tetrominos[0], tetrominoX, tetrominoY);
+      DrawTetromino(tetromino, tetrominoX, tetrominoY);
 
     EndDrawing();
   }
