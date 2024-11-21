@@ -96,10 +96,10 @@ App::App(int windowWidth, int windowHeight) {
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
   PrintTetromino(tetromino);
 
-  int tetrominoX = 6;
+  int tetrominoX = 4;
   int tetrominoY = 0;
 
-  int score;
+  int score = 0;
 
   // Timing
   std::chrono::steady_clock clock;
@@ -153,7 +153,7 @@ App::App(int windowWidth, int windowHeight) {
       }
       else {
         PlaceTetromino(tetromino, tetrominoX, tetrominoY);
-        tetrominoX = 6;
+        tetrominoX = 4;
         tetrominoY = 0;
         tetromino = tetrominos[GetRandomValue(0,6)];
         if (!TetrominoFits(tetromino, tetrominoX, tetrominoY)) {
@@ -163,9 +163,30 @@ App::App(int windowWidth, int windowHeight) {
       }
       // Check line clears
       bool markedLines[height-1] = {};
+      int ClearedLines = 0;
       for (int j = 0; j < height-1; j++) {
         markedLines[j] = CheckLine(j);
+        if (markedLines[j]) ClearedLines++;
       }
+      // Add score
+      switch(ClearedLines) {
+        case 0:
+          break;
+        case 1:
+          score += 10;
+          break;
+        case 2:
+          score += 20;
+          break;
+        case 3:
+          score += 50;
+          break;
+        case 4:
+          score += 100;
+          break;
+      }
+
+      // Clear lines
       for (int line = 0; line < height-1; line++) {
         if (markedLines[line]) {
           ClearLine(line);
@@ -185,8 +206,11 @@ App::App(int windowWidth, int windowHeight) {
       int BottomY = (height-1+boardOffsetY)*renderScale;
       int TopY = (boardOffsetY)*renderScale;
 
+      // Draw Score
+      DrawRectangle(RightX+20, TopY, 300, 40, Color{20,20,20,255});
 
-      DrawText("score: ", RightX+20, TopY, 50, WHITE);
+      std::string scoreText = "SCORE: " + std::to_string(score);
+      DrawText(scoreText.c_str(), RightX+20, TopY, 40, WHITE);
 
       // Draw board background
       DrawRectangle(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{20,20,20,255});
