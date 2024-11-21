@@ -20,6 +20,10 @@ char board[width][height];
 int tetrominoX = 4;
 int tetrominoY = 0;
 
+// tetromino storage
+bool stored = false;
+bool swapped = false;
+Tetromino storedTetromino;
 
 // Tetromino functions
 
@@ -50,7 +54,7 @@ void DrawTetromino(Tetromino tetromino, int x, int y) {
   for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
       DrawRectangle((i+x+boardOffsetX)*renderScale,(j+y+boardOffsetY)*renderScale,renderScale,renderScale,colors[tetromino.shape[i][j]]);
-      DrawRectangle((i+x+boardOffsetX)*renderScale+2,(j+y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],0.1f));
+      DrawRectangle((i+x+boardOffsetX)*renderScale+2,(j+y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
     }
   }
 }
@@ -94,6 +98,7 @@ void PlaceTetromino(Tetromino &tetromino, int x, int y) {
   tetrominoX = 4;
   tetrominoY = 0;
   tetromino = tetrominos[GetRandomValue(0,6)];
+  swapped = false;
 }
 
 // Board functions
@@ -121,8 +126,6 @@ App::App(int windowWidth, int windowHeight) {
   SetTargetFPS(60);
 
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
-  bool stored = false;
-  Tetromino storedTetromino;
 
   int score = 0;
 
@@ -159,10 +162,23 @@ App::App(int windowWidth, int windowHeight) {
     if (IsKeyPressed(KEY_RIGHT))
       if (TetrominoFits(tetromino, tetrominoX+1, tetrominoY))
         tetrominoX += 1;
+    if (IsKeyPressedRepeat(KEY_RIGHT))
+      if (TetrominoFits(tetromino, tetrominoX+1, tetrominoY))
+        tetrominoX += 1;
+
     if (IsKeyPressed(KEY_LEFT))
       if (TetrominoFits(tetromino, tetrominoX-1, tetrominoY))
         tetrominoX -= 1;
+    if (IsKeyPressedRepeat(KEY_LEFT))
+      if (TetrominoFits(tetromino, tetrominoX-1, tetrominoY))
+        tetrominoX -= 1;        
+
     if (IsKeyPressed(KEY_DOWN))
+      if (TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
+        GameTick = true;
+        GameTimer = std::chrono::duration<double>();
+      }
+    if (IsKeyPressedRepeat(KEY_DOWN))
       if (TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
         GameTick = true;
         GameTimer = std::chrono::duration<double>();
@@ -178,6 +194,24 @@ App::App(int windowWidth, int windowHeight) {
       }
       GameTick = true;
       GameTimer = std::chrono::duration<double>();
+    }
+    if (IsKeyPressed(KEY_S)) {
+      if (!stored) {
+        storedTetromino = tetromino;
+        tetromino = tetrominos[GetRandomValue(0,6)];
+        tetrominoX = 4;
+        tetrominoY = 0;
+        stored = true;
+        swapped = true;
+      }
+      else if (!swapped) {
+        Tetromino tempTetromino = tetromino;
+        tetromino = storedTetromino;
+        storedTetromino = tempTetromino;
+        tetrominoX = 4;
+        tetrominoY = 0;
+        swapped = true;
+      }
     }
 
     // Logic
@@ -266,7 +300,7 @@ App::App(int windowWidth, int windowHeight) {
       for (int y = 0; y < height-1; y++) {
         for (int x = 1; x < width-1; x++) {
           DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale,colors[board[x][y]]);
-          DrawRectangle((x+boardOffsetX)*renderScale+2,(y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],0.1f));
+          DrawRectangle((x+boardOffsetX)*renderScale+2,(y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],-0.1f));
         }
       }
 
