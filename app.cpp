@@ -50,6 +50,7 @@ void DrawTetromino(Tetromino tetromino, int x, int y) {
   for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
       DrawRectangle((i+x+boardOffsetX)*renderScale,(j+y+boardOffsetY)*renderScale,renderScale,renderScale,colors[tetromino.shape[i][j]]);
+      DrawRectangle((i+x+boardOffsetX)*renderScale+2,(j+y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],0.1f));
     }
   }
 }
@@ -114,13 +115,14 @@ void ClearLine(int clearedY) {
   }
 }
 
-// TODO: sep game loop and app so you can restart the game without closign hte app
+// TODO: sep game loop and app so you can restart the game without closing the app
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
   SetTargetFPS(60);
 
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
-
+  bool stored = false;
+  Tetromino storedTetromino;
 
   int score = 0;
 
@@ -236,18 +238,35 @@ App::App(int windowWidth, int windowHeight) {
       int TopY = (boardOffsetY)*renderScale;
 
       // Draw Score
-      DrawRectangle(RightX+15, TopY, 300, 40, Color{20,20,20,255});
+      DrawRectangle(RightX+15, TopY, 300, 30, Color{20,20,20,255});
+      DrawLine(RightX+15, TopY, RightX+15+300, TopY, WHITE);
+      DrawLine(RightX+15, TopY+30, RightX+15+300, TopY+30, WHITE);
+      DrawLine(RightX+15, TopY, RightX+15, TopY+30, WHITE);
+      DrawLine(RightX+15+300, TopY, RightX+15+300, TopY+30, WHITE);
 
       std::string scoreText = "SCORE: " + std::to_string(score);
-      DrawText(scoreText.c_str(), RightX+20, TopY, 40, WHITE);
+      DrawText(scoreText.c_str(), RightX+20, TopY, 30, WHITE);
+
+      // Draw Board shadow
+      DrawRectangle(LeftX+5, TopY+5, RightX - LeftX, BottomY - TopY, Color{20,20,20,100});
 
       // Draw board background
       DrawRectangle(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{20,20,20,255});
+      
+      // Draw checker
+      for (int y = 0; y < height-1; y++) {
+        for (int x = 1; x < width-1; x++) {
+          if ((x+y)%2 == 1) {
+            DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale, Color{25,25,25,100});
+          }
+        }
+      }
 
       // Draw placed tetrominoes
       for (int y = 0; y < height-1; y++) {
         for (int x = 1; x < width-1; x++) {
           DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale,colors[board[x][y]]);
+          DrawRectangle((x+boardOffsetX)*renderScale+2,(y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],0.1f));
         }
       }
 
