@@ -35,10 +35,35 @@ Tetromino RotateTetromino(Tetromino tetromino, int times) {
   return result;
 }
 
+// Check if tetromino its in board position
+bool TetrominoFits(Tetromino tetromino, int x, int y) {
+  bool result = true;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      result = result && !(tetromino.shape[i][j] != 0 && board[i+x][j+y] != 0);
+    }
+  }
+  return result;
+}
+
 void DrawTetromino(Tetromino tetromino, int x, int y) {
   for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
       DrawRectangle((i+x+boardOffsetX)*renderScale,(j+y+boardOffsetY)*renderScale,renderScale,renderScale,colors[tetromino.shape[i][j]]);
+    }
+  }
+}
+
+void DrawPreview(Tetromino tetromino, int x, int y) {
+  while(TetrominoFits(tetromino, x, y+1)) {
+    y++;
+  }
+  for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 4; i++) {
+      Color color = colors[tetromino.shape[i][j]];
+      color.a = 20;
+      if (tetromino.shape[i][j] != 0)
+        DrawRectangle((i+x+boardOffsetX)*renderScale,(j+y+boardOffsetY)*renderScale,renderScale,renderScale,color);
     }
   }
 }
@@ -52,16 +77,6 @@ void PrintTetromino(Tetromino tetromino) {
   }
 }
 
-// Check if tetromino its in board position
-bool TetrominoFits(Tetromino tetromino, int x, int y) {
-  bool result = true;
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < 4; j++) {
-      result = result && !(tetromino.shape[i][j] != 0 && board[i+x][j+y] != 0);
-    }
-  }
-  return result;
-}
 
 // Add tetromino to board char array
 void AddTetromino(Tetromino tetromino, int x, int y) {
@@ -99,6 +114,7 @@ void ClearLine(int clearedY) {
   }
 }
 
+// TODO: sep game loop and app so you can restart the game without closign hte app
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
   SetTargetFPS(60);
@@ -236,6 +252,7 @@ App::App(int windowWidth, int windowHeight) {
       }
 
       DrawTetromino(tetromino, tetrominoX, tetrominoY);
+      DrawPreview(tetromino, tetrominoX, tetrominoY);
 
       // Draw board borders
       
