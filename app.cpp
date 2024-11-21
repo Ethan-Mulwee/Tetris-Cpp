@@ -23,7 +23,7 @@ Tetromino RotateTetromino(Tetromino tetromino, int times) {
   for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
       // transposes for the moment
-      result.shape[i][j] = tetromino.shape[j][i];
+      result.shape[i][j] = tetromino.shape[j][3-i];
     }
   }
   return result;
@@ -132,6 +132,21 @@ App::App(int windowWidth, int windowHeight) {
         tetrominoX = 6;
         tetrominoY = 0;
         tetromino = tetrominos[GetRandomValue(0,6)];
+        if (!TetrominoFits(tetromino, tetrominoX, tetrominoY)) {
+          // TODO: proper loss screen
+          goto EndApplication;
+        }
+      }
+      // Check line clears
+      bool markedLines[height];
+      for (int j = 0; j < height-1; j++) {
+        bool lineFilled = true;
+        for (int i = 1; i < width-1; i++) {
+          lineFilled = lineFilled && (board[i][j] != 0);
+        }
+        markedLines[j] = lineFilled;
+        if (lineFilled)
+          std::cout << "you filled a line!" << "\n";
       }
       GameTick = false;
     }
@@ -151,5 +166,6 @@ App::App(int windowWidth, int windowHeight) {
 
     EndDrawing();
   }
+  EndApplication:
   CloseWindow();
 }
