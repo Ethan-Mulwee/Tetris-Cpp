@@ -120,28 +120,32 @@ void ClearLine(int clearedY) {
 }
 
 // UI drawing functions
-void DrawTetrominoStorage(Tetromino tetromino, int x, int y, float scale) {
+void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char* str) {
   // TODO: Refractor the draw tetromino function so you can use it here and avoid duplication
-  DrawRectangle(x,y,4*scale,4*scale,Color{20,20,20,255});
+  DrawRectangle(x-5,y-5,4*scale+10,4*scale+10,Color{20,20,20,255});
   for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
       DrawRectangle((i)*scale+x,(j)*scale+y,scale,scale,colors[tetromino.shape[i][j]]);
       DrawRectangle((i)*scale+2+x,(j)*scale+2+y,scale-4,scale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
     }
   }
-  DrawRectangleLines(x,y,4*scale,4*scale,WHITE);
+  DrawRectangleLines(x-5,y-5,4*scale+10,4*scale+10,WHITE);
   int leftX = x;
   int TopY = y;
   int RightX = x+4*scale;
   int BottomY = y+4*scale;
 
-  // DrawLine
+  DrawText(str, x, y, 20, WHITE);
 }
 
 // TODO: sep game loop and app so you can restart the game without closing the app
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
   SetTargetFPS(60);
+
+  Sound tetrisTheme = LoadSound("Tetris.mp3");
+
+  PlaySound(tetrisTheme);
 
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
   Tetromino storedTetromino;
@@ -338,7 +342,8 @@ App::App(int windowWidth, int windowHeight) {
       // Top horizontal
       DrawLine(LeftX, TopY, RightX, TopY, WHITE);
 
-      DrawTetrominoStorage(storedTetromino, RightX+15, TopY+40, 35);
+      DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 30, "STORED: ");
+      DrawTetrominoUI(tetromino, RightX+190, TopY+40, 30, "NEXT: ");
 
     EndDrawing();
   }
