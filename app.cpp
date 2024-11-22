@@ -23,7 +23,6 @@ int tetrominoY = 0;
 // tetromino storage
 bool stored = false;
 bool swapped = false;
-Tetromino storedTetromino;
 
 // Tetromino functions
 
@@ -120,12 +119,25 @@ void ClearLine(int clearedY) {
   }
 }
 
+// UI drawing functions
+void DrawTetrominoStorage(Tetromino tetromino, int x, int y) {
+  // TODO: Refractor the draw tetromino function so you can use it here and avoid duplication
+    for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 4; i++) {
+      DrawRectangle((i)*renderScale+x,(j)*renderScale+y,renderScale,renderScale,colors[tetromino.shape[i][j]]);
+      DrawRectangle((i)*renderScale+2+x,(j)*renderScale+2+y,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
+    }
+  }
+
+}
+
 // TODO: sep game loop and app so you can restart the game without closing the app
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
   SetTargetFPS(60);
 
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
+  Tetromino storedTetromino;
 
   int score = 0;
 
@@ -317,6 +329,8 @@ App::App(int windowWidth, int windowHeight) {
       DrawLine(LeftX, BottomY, RightX, BottomY, WHITE);
       // Top horizontal
       DrawLine(LeftX, TopY, RightX, TopY, WHITE);
+
+      DrawTetrominoStorage(storedTetromino, RightX+20, TopY+100);
 
     EndDrawing();
   }
