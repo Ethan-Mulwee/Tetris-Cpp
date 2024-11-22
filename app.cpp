@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include <string>
+#include <algorithm>
 
 #include <raylib.h>
 
@@ -23,6 +24,20 @@ int tetrominoY = 0;
 // tetromino storage
 bool stored = false;
 bool swapped = false;
+
+int tetrominoPool[7] = {0,1,2,3,4,5,6};
+int tetrominoSelection = 0;
+
+// Misc functions
+
+void ShuffleArray(int* array, int size) {
+  for (int i = 0; i < size; i++) {
+    int r = GetRandomValue(0,size);
+    int temp = array[i];
+    array[i] = array[r];
+    array[r] = temp;
+  }
+}
 
 // Tetromino functions
 
@@ -81,6 +96,10 @@ void PrintTetromino(Tetromino tetromino) {
   }
 }
 
+Tetromino GetTetromino(int selection) {
+  return tetrominos[tetrominoPool[selection]];
+}
+
 
 // Add tetromino to board char array
 void AddTetromino(Tetromino tetromino, int x, int y) {
@@ -100,6 +119,15 @@ void PlaceTetromino(Tetromino &tetromino, Tetromino &nextTetromino, int x, int y
   nextTetromino = tetrominos[GetRandomValue(0,6)];
   swapped = false;
 }
+
+// void PlaceTetromino(int selectionID, Tetromino &nextTetromino, int x, int y) {
+//   AddTetromino(tetromino, tetrominoX, tetrominoY);
+//   tetrominoX = 4;
+//   tetrominoY = 0;
+//   tetromino = nextTetromino;
+//   nextTetromino = tetrominos[GetRandomValue(0,6)];
+//   swapped = false;
+// }
 
 // Board functions
 bool CheckLine(int y) {
@@ -149,7 +177,7 @@ App::App(int windowWidth, int windowHeight) {
 
   PlaySound(tetrisTheme);
 
-
+  ShuffleArray(tetrominoPool,7);
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
   Tetromino nextTetromino = tetrominos[GetRandomValue(0,6)];
   Tetromino storedTetromino = Tetromino{
