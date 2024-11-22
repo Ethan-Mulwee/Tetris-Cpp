@@ -120,15 +120,22 @@ void ClearLine(int clearedY) {
 }
 
 // UI drawing functions
-void DrawTetrominoStorage(Tetromino tetromino, int x, int y) {
+void DrawTetrominoStorage(Tetromino tetromino, int x, int y, float scale) {
   // TODO: Refractor the draw tetromino function so you can use it here and avoid duplication
-    for (int j = 0; j < 4; j++) {
+  DrawRectangle(x,y,4*scale,4*scale,Color{20,20,20,255});
+  for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
-      DrawRectangle((i)*renderScale+x,(j)*renderScale+y,renderScale,renderScale,colors[tetromino.shape[i][j]]);
-      DrawRectangle((i)*renderScale+2+x,(j)*renderScale+2+y,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
+      DrawRectangle((i)*scale+x,(j)*scale+y,scale,scale,colors[tetromino.shape[i][j]]);
+      DrawRectangle((i)*scale+2+x,(j)*scale+2+y,scale-4,scale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
     }
   }
+  DrawRectangleLines(x,y,4*scale,4*scale,WHITE);
+  int leftX = x;
+  int TopY = y;
+  int RightX = x+4*scale;
+  int BottomY = y+4*scale;
 
+  // DrawLine
 }
 
 // TODO: sep game loop and app so you can restart the game without closing the app
@@ -235,7 +242,7 @@ App::App(int windowWidth, int windowHeight) {
         PlaceTetromino(tetromino, tetrominoX, tetrominoY);
         if (!TetrominoFits(tetromino, tetrominoX, tetrominoY)) {
           // TODO: proper loss screen
-          goto EndApplication;
+          goto Loss;
         }
       }
       // Check line clears
@@ -307,6 +314,7 @@ App::App(int windowWidth, int windowHeight) {
           }
         }
       }
+      DrawRectangleGradientV(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{255,255,255,0}, Color{10,10,10,50});
 
       // Draw placed tetrominoes
       for (int y = 0; y < height-1; y++) {
@@ -330,10 +338,16 @@ App::App(int windowWidth, int windowHeight) {
       // Top horizontal
       DrawLine(LeftX, TopY, RightX, TopY, WHITE);
 
-      DrawTetrominoStorage(storedTetromino, RightX+20, TopY+100);
+      DrawTetrominoStorage(storedTetromino, RightX+15, TopY+40, 35);
 
     EndDrawing();
   }
-  EndApplication:
+  Loss:
+  while(!WindowShouldClose()) {
+    BeginDrawing();
+      DrawRectangle(0,0,windowWidth, windowHeight, Color{30,30,30,5});
+      DrawText("GAME OVER", 85,5, 20, WHITE);
+    EndDrawing();
+  }
   CloseWindow();
 }
