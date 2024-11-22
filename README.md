@@ -1,2 +1,2 @@
-# Tetris Cpp Speedrun
+# Tetris Cpp
  
