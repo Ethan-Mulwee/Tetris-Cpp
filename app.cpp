@@ -92,11 +92,12 @@ void AddTetromino(Tetromino tetromino, int x, int y) {
   }
 }
 
-void PlaceTetromino(Tetromino &tetromino, int x, int y) {
+void PlaceTetromino(Tetromino &tetromino, Tetromino &nextTetromino, int x, int y) {
   AddTetromino(tetromino, tetrominoX, tetrominoY);
   tetrominoX = 4;
   tetrominoY = 0;
-  tetromino = tetrominos[GetRandomValue(0,6)];
+  tetromino = nextTetromino;
+  nextTetromino = tetrominos[GetRandomValue(0,6)];
   swapped = false;
 }
 
@@ -122,14 +123,14 @@ void ClearLine(int clearedY) {
 // UI drawing functions
 void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char* str) {
   // TODO: Refractor the draw tetromino function so you can use it here and avoid duplication
-  DrawRectangle(x-5,y-5,4*scale+10,4*scale+10,Color{20,20,20,255});
+  DrawRectangle(x-5,y-5,4*scale+10,4*scale+10+20,Color{20,20,20,255});
   for (int j = 0; j < 4; j++) {
     for (int i = 0; i < 4; i++) {
-      DrawRectangle((i)*scale+x,(j)*scale+y,scale,scale,colors[tetromino.shape[i][j]]);
-      DrawRectangle((i)*scale+2+x,(j)*scale+2+y,scale-4,scale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
+      DrawRectangle((i)*scale+x,(j)*scale+y+20,scale,scale,colors[tetromino.shape[i][j]]);
+      DrawRectangle((i)*scale+2+x,(j)*scale+2+y+20,scale-4,scale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
     }
   }
-  DrawRectangleLines(x-5,y-5,4*scale+10,4*scale+10,WHITE);
+  DrawRectangleLines(x-5,y-5,4*scale+10,4*scale+10+20,WHITE);
   int leftX = x;
   int TopY = y;
   int RightX = x+4*scale;
@@ -141,14 +142,22 @@ void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char*
 // TODO: sep game loop and app so you can restart the game without closing the app
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth,windowHeight, "Tetris");
+  InitAudioDevice();
   SetTargetFPS(60);
 
   Sound tetrisTheme = LoadSound("Tetris.mp3");
 
   PlaySound(tetrisTheme);
 
+
   Tetromino tetromino = tetrominos[GetRandomValue(0,6)];
-  Tetromino storedTetromino;
+  Tetromino nextTetromino = tetrominos[GetRandomValue(0,6)];
+  Tetromino storedTetromino = Tetromino{
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0
+  };
 
   int score = 0;
 
@@ -220,8 +229,10 @@ App::App(int windowWidth, int windowHeight) {
     }
     if (IsKeyPressed(KEY_S)) {
       if (!stored) {
+        // TODO: standard swapping or adding 
         storedTetromino = tetromino;
-        tetromino = tetrominos[GetRandomValue(0,6)];
+        tetromino = nextTetromino;
+        nextTetromino = tetrominos[GetRandomValue(0,6)];
         tetrominoX = 4;
         tetrominoY = 0;
         stored = true;
@@ -243,7 +254,7 @@ App::App(int windowWidth, int windowHeight) {
         tetrominoY += 1;
       }
       else {
-        PlaceTetromino(tetromino, tetrominoX, tetrominoY);
+        PlaceTetromino(tetromino, nextTetromino, tetrominoX, tetrominoY);
         if (!TetrominoFits(tetromino, tetrominoX, tetrominoY)) {
           // TODO: proper loss screen
           goto Loss;
@@ -342,8 +353,8 @@ App::App(int windowWidth, int windowHeight) {
       // Top horizontal
       DrawLine(LeftX, TopY, RightX, TopY, WHITE);
 
-      DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 30, "STORED: ");
-      DrawTetrominoUI(tetromino, RightX+190, TopY+40, 30, "NEXT: ");
+      DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 33, "STORED: ");
+      DrawTetrominoUI(nextTetromino, RightX+178, TopY+40, 33, "NEXT: ");
 
     EndDrawing();
   }
