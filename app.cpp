@@ -120,15 +120,6 @@ void PlaceTetromino(Tetromino &tetromino, Tetromino &nextTetromino, int x, int y
   swapped = false;
 }
 
-// void PlaceTetromino(int selectionID, Tetromino &nextTetromino, int x, int y) {
-//   AddTetromino(tetromino, tetrominoX, tetrominoY);
-//   tetrominoX = 4;
-//   tetrominoY = 0;
-//   tetromino = nextTetromino;
-//   nextTetromino = tetrominos[GetRandomValue(0,6)];
-//   swapped = false;
-// }
-
 // Board functions
 bool CheckLine(int y) {
   bool lineFilled = true;
