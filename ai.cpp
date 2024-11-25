@@ -6,15 +6,14 @@ void TetrisAI::Update() {
   deltaTime = currentUpdateTime - lastUpdateTime;
   lastUpdateTime = currentUpdateTime;
   logicTimer += deltaTime;
-  if (logicTimer.count() > 0.5f) {
-      switch(GetRandomValue(0,1)) {
+  if (logicTimer.count() > 0.02f) {
+    if (!TetrominoMatches(game->activeTetromino, game->activeX, game->activeY)) {
+      switch(GetRandomValue(0,5)) {
         case 0: 
           game->Tick(); 
-          std::cout << TetrominoMatches(game->activeTetromino, game->activeX, game->activeY) << "\n";
           break;
         case 1: 
           game->Move(1,0);
-          std::cout << TetrominoMatches(game->activeTetromino, game->activeX, game->activeY) << "\n";
           break;
         case 2: 
           game->Move(-1,0); break;
@@ -27,6 +26,10 @@ void TetrisAI::Update() {
         case 6:
           game->Place(); break;
       }
+    }
+    else {
+      game->Place();
+    }
     logicTimer = std::chrono::duration<double>();
   }
 }
