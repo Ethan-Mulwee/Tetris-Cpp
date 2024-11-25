@@ -35,6 +35,9 @@ void TetrisGame::Rotate(int r) {
 }
 
 void TetrisGame::Place() {
+  while(TetrominoFits(activeTetromino, activeX, activeY+1)) {
+    activeY++;
+  }
   AddTetromino(activeTetromino, activeX, activeY);
   Next();
 }

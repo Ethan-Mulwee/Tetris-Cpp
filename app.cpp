@@ -19,6 +19,8 @@ App::App(int windowWidth, int windowHeight) {
     if (IsKeyPressed(KEY_DOWN)) game.Tick();
     if (IsKeyPressedRepeat(KEY_DOWN)) game.Tick();
 
+    if (IsKeyPressed(KEY_SPACE)) game.Place();
+
     if (IsKeyPressed(KEY_P)) game.suspended = !game.suspended;
 
     game.Update();
@@ -232,14 +234,14 @@ App::App(int windowWidth, int windowHeight) {
 //   while(!WindowShouldClose()) {
 //     // TODO: cleanup timing code
 //     // Timing 
-//     auto currentFrameTime = clock.now();
-//     deltaTickTime = currentFrameTime - lastFrameTime;
-//     lastFrameTime = currentFrameTime;
-//     GameTimer += deltaTickTime;
-//     if (GameTimer.count() > 1) {
-//       GameTick = true;
-//       GameTimer = std::chrono::duration<double>();
-//     }
+    // auto currentFrameTime = clock.now();
+    // deltaTickTime = currentFrameTime - lastFrameTime;
+    // lastFrameTime = currentFrameTime;
+    // GameTimer += deltaTickTime;
+    // if (GameTimer.count() > 1) {
+    //   GameTick = true;
+    //   GameTimer = std::chrono::duration<double>();
+    // }
 
 //     // Input
 //     if (IsKeyPressed(KEY_RIGHT))
@@ -272,9 +274,9 @@ App::App(int windowWidth, int windowHeight) {
 //         tetromino = rotatedTetromino;
 //     }
 //     if (IsKeyPressed(KEY_SPACE)) {
-//       while(TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
-//         tetrominoY++;
-//       }
+      // while(TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
+      //   tetrominoY++;
+      // }
 //       GameTick = true;
 //       GameTimer = std::chrono::duration<double>();
 //     }
