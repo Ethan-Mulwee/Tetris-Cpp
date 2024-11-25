@@ -39,6 +39,9 @@ class TetrisGame {
   // Do tetris logic
   void Tick();
 
+  // Handle line clears
+  void Check();
+
   // Draw
   void Draw();
 

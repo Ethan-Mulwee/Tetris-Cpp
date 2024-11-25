@@ -40,8 +40,8 @@ void TetrisGame::Place() {
     activeY++;
   }
   AddTetromino(activeTetromino, activeX, activeY);
+  Check();
   Next();
-  Tick();
 }
 
 void TetrisGame::Next() {
@@ -53,6 +53,7 @@ void TetrisGame::Next() {
     Shuffle(tetrominoQueue_F);
   }
   activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
+  logicTimer = std::chrono::duration<double>();
 }
 
 void TetrisGame::Shuffle(int* array) {
@@ -87,6 +88,10 @@ void TetrisGame::Tick() {
       // goto Loss;
     }
   }
+  Check();
+}
+
+void TetrisGame::Check() {
   // Check line clears
   bool markedLines[height-1] = {};
   int ClearedLines = 0;
