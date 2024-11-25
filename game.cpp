@@ -11,33 +11,33 @@ TetrisGame::TetrisGame() {
 }
 
 void TetrisGame::Move(int x, int y) {
-  if (TetrominoFits(currentTetromino, tetrominoX+x, tetrominoY+y)) {
-    tetrominoX += x;
-    tetrominoY += y;
+  if (TetrominoFits(activeTetromino, activeX+x, activeY+y)) {
+    activeX += x;
+    activeY += y;
   }
 }
 
 void TetrisGame::Rotate(int r) {
-  if (TetrominoFits(RotateTetromino(currentTetromino, r), tetrominoX, tetrominoY))
-    currentTetromino = RotateTetromino(currentTetromino, r);
+  if (TetrominoFits(RotateTetromino(activeTetromino, r), activeX, activeY))
+    activeTetromino = RotateTetromino(activeTetromino, r);
 }
 
 void TetrisGame::Place() {
-  AddTetromino(currentTetromino, tetrominoX, tetrominoY);
-  tetrominoX = 4;
-  tetrominoY = 0;
+  AddTetromino(activeTetromino, activeX, activeY);
+  activeX = 4;
+  activeY = 0;
 }
 
 void TetrisGame::Update() {
 }
 
 void TetrisGame::Tick() {
-  if(TetrominoFits(currentTetromino, tetrominoX, tetrominoY+1)) {
-    tetrominoY += 1;
+  if(TetrominoFits(activeTetromino, activeX, activeY+1)) {
+    activeY += 1;
   }
   else {
     Place();
-    if (!TetrominoFits(currentTetromino, tetrominoX, tetrominoY)) {
+    if (!TetrominoFits(activeTetromino, activeX, activeY)) {
       // TODO: proper loss screen
       // goto Loss;
     }
@@ -119,8 +119,8 @@ void TetrisGame::Draw() {
     }
   }
 
-  DrawTetromino(currentTetromino /* placeholder code */, tetrominoX, tetrominoY);
-  DrawPreview(currentTetromino /* placeholder code */, tetrominoX, tetrominoY);
+  DrawTetromino(activeTetromino /* placeholder code */, activeX, activeY);
+  DrawPreview(activeTetromino /* placeholder code */, activeX, activeY);
 
   // Draw board borders
   

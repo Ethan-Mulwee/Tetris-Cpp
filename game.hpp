@@ -160,8 +160,8 @@ class TetrisGame {
   int score = 0;
 
   char board[width][height];
-  int tetrominoX = 4;
-  int tetrominoY = 0;
+  int activeX = 4;
+  int activeY = 0;
 
   // game state
   bool stored = false;
@@ -172,7 +172,7 @@ class TetrisGame {
   int tetrominoSelection = 0;
 
   private:
-  Tetromino currentTetromino = tetrominos[GetRandomValue(0,6)];
+  Tetromino activeTetromino = tetrominos[GetRandomValue(0,6)];
   Tetromino storedTetromino = Tetromino{
     0,0,0,0,
     0,0,0,0,
