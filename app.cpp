@@ -6,6 +6,17 @@ App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth, windowHeight, "Tetris");
 
   while (!WindowShouldClose()) {
+
+    if (IsKeyPressed(KEY_RIGHT)) {
+      game.Move(1,0);
+    }
+    if (IsKeyPressed(KEY_LEFT)) {
+      game.Move(-1,0);
+    }
+    if (IsKeyPressed(KEY_UP)) {
+      game.Rotate(1);
+    }
+
     game.Tick();
 
     // Drawing
@@ -205,13 +216,13 @@ App::App(int windowWidth, int windowHeight) {
 //   bool GameTick;
 
 
-//   // Inialized board state
-//   for (int y = 0; y < height; y++) {
-//     for (int x = 0; x < width; x++) {
-//       if (y == height-1 || (x == 0 || x == width-1)) board[x][y] = 1;
-//       else board[x][y] = 0;
-//     }
-//   }
+  // // Inialized board state
+  // for (int y = 0; y < height; y++) {
+  //   for (int x = 0; x < width; x++) {
+  //     if (y == height-1 || (x == 0 || x == width-1)) board[x][y] = 1;
+  //     else board[x][y] = 0;
+  //   }
+  // }
 
 //   // Game loop
 //   while(!WindowShouldClose()) {
@@ -332,65 +343,65 @@ App::App(int windowWidth, int windowHeight) {
 
 //     // Drawing
 //     BeginDrawing();
-//       ClearBackground(Color{31,31,31,255});
+      // ClearBackground(Color{31,31,31,255});
 
-//       // Draw UI
+      // // Draw UI
 
-//       int LeftX = (1+boardOffsetX)*renderScale;
-//       int RightX = (width-1+boardOffsetX)*renderScale;
-//       int BottomY = (height-1+boardOffsetY)*renderScale;
-//       int TopY = (boardOffsetY)*renderScale;
+      // int LeftX = (1+boardOffsetX)*renderScale;
+      // int RightX = (width-1+boardOffsetX)*renderScale;
+      // int BottomY = (height-1+boardOffsetY)*renderScale;
+      // int TopY = (boardOffsetY)*renderScale;
 
-//       // Draw Score
-//       DrawRectangle(RightX+15, TopY, 300, 30, Color{20,20,20,255});
-//       DrawLine(RightX+15, TopY, RightX+15+300, TopY, WHITE);
-//       DrawLine(RightX+15, TopY+30, RightX+15+300, TopY+30, WHITE);
-//       DrawLine(RightX+15, TopY, RightX+15, TopY+30, WHITE);
-//       DrawLine(RightX+15+300, TopY, RightX+15+300, TopY+30, WHITE);
+      // // Draw Score
+      // DrawRectangle(RightX+15, TopY, 300, 30, Color{20,20,20,255});
+      // DrawLine(RightX+15, TopY, RightX+15+300, TopY, WHITE);
+      // DrawLine(RightX+15, TopY+30, RightX+15+300, TopY+30, WHITE);
+      // DrawLine(RightX+15, TopY, RightX+15, TopY+30, WHITE);
+      // DrawLine(RightX+15+300, TopY, RightX+15+300, TopY+30, WHITE);
 
-//       std::string scoreText = "SCORE: " + std::to_string(score);
-//       DrawText(scoreText.c_str(), RightX+20, TopY, 30, WHITE);
+      // std::string scoreText = "SCORE: " + std::to_string(score);
+      // DrawText(scoreText.c_str(), RightX+20, TopY, 30, WHITE);
 
-//       // Draw Board shadow
-//       DrawRectangle(LeftX+5, TopY+5, RightX - LeftX, BottomY - TopY, Color{20,20,20,100});
+      // // Draw Board shadow
+      // DrawRectangle(LeftX+5, TopY+5, RightX - LeftX, BottomY - TopY, Color{20,20,20,100});
 
-//       // Draw board background
-//       DrawRectangle(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{20,20,20,255});
+      // // Draw board background
+      // DrawRectangle(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{20,20,20,255});
       
-//       // Draw checker
-//       for (int y = 0; y < height-1; y++) {
-//         for (int x = 1; x < width-1; x++) {
-//           if ((x+y)%2 == 1) {
-//             DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale, Color{25,25,25,100});
-//           }
-//         }
-//       }
-//       DrawRectangleGradientV(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{255,255,255,0}, Color{10,10,10,50});
+      // // Draw checker
+      // for (int y = 0; y < height-1; y++) {
+      //   for (int x = 1; x < width-1; x++) {
+      //     if ((x+y)%2 == 1) {
+      //       DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale, Color{25,25,25,100});
+      //     }
+      //   }
+      // }
+      // DrawRectangleGradientV(LeftX, TopY, RightX - LeftX, BottomY - TopY, Color{255,255,255,0}, Color{10,10,10,50});
 
-//       // Draw placed tetrominoes
-//       for (int y = 0; y < height-1; y++) {
-//         for (int x = 1; x < width-1; x++) {
-//           DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale,colors[board[x][y]]);
-//           DrawRectangle((x+boardOffsetX)*renderScale+2,(y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],-0.1f));
-//         }
-//       }
+      // // Draw placed tetrominoes
+      // for (int y = 0; y < height-1; y++) {
+      //   for (int x = 1; x < width-1; x++) {
+      //     DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale,colors[board[x][y]]);
+      //     DrawRectangle((x+boardOffsetX)*renderScale+2,(y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],-0.1f));
+      //   }
+      // }
 
-//       DrawTetromino(tetromino, tetrominoX, tetrominoY);
-//       DrawPreview(tetromino, tetrominoX, tetrominoY);
+      // DrawTetromino(tetromino, tetrominoX, tetrominoY);
+      // DrawPreview(tetromino, tetrominoX, tetrominoY);
 
-//       // Draw board borders
+      // // Draw board borders
       
-//       // Right vertical
-//       DrawLine(RightX, TopY, RightX, BottomY, WHITE);
-//       // Left vertical
-//       DrawLine(LeftX, TopY, LeftX, BottomY, WHITE);
-//       // Bottom horizontal
-//       DrawLine(LeftX, BottomY, RightX, BottomY, WHITE);
-//       // Top horizontal
-//       DrawLine(LeftX, TopY, RightX, TopY, WHITE);
+      // // Right vertical
+      // DrawLine(RightX, TopY, RightX, BottomY, WHITE);
+      // // Left vertical
+      // DrawLine(LeftX, TopY, LeftX, BottomY, WHITE);
+      // // Bottom horizontal
+      // DrawLine(LeftX, BottomY, RightX, BottomY, WHITE);
+      // // Top horizontal
+      // DrawLine(LeftX, TopY, RightX, TopY, WHITE);
 
-//       DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 33, "STORED: ");
-//       DrawTetrominoUI(nextTetromino, RightX+178, TopY+40, 33, "NEXT: ");
+      // DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 33, "STORED: ");
+      // DrawTetrominoUI(nextTetromino, RightX+178, TopY+40, 33, "NEXT: ");
 
 //     EndDrawing();
 //   }

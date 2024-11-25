@@ -18,8 +18,11 @@ class TetrisGame {
   // Gets tetromino from queue
   Tetromino GetTetromino(int selection);
 
-  // Move tetromino
-  void MoveTetromino(int x, int y);
+  // Move the active tetromino
+  void Move(int x, int y);
+
+  // Rotate the active tetromino
+  void Rotate(int r);
 
   // Do game loop
   void Tick();

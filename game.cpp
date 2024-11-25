@@ -10,6 +10,15 @@ TetrisGame::TetrisGame() {
   }
 }
 
+void TetrisGame::Move(int x, int y) {
+  tetrominoX += x;
+  tetrominoY += y;
+}
+
+void TetrisGame::Rotate(int r) {
+  currentTetromino = RotateTetromino(currentTetromino, r);
+}
+
 void TetrisGame::Tick() {
 
 }
@@ -58,8 +67,8 @@ void TetrisGame::Draw() {
     }
   }
 
-  DrawTetromino(tetrominos[0] /* placeholder code */, tetrominoX, tetrominoY);
-  DrawPreview(tetrominos[0] /* placeholder code */, tetrominoX, tetrominoY);
+  DrawTetromino(currentTetromino /* placeholder code */, tetrominoX, tetrominoY);
+  DrawPreview(currentTetromino /* placeholder code */, tetrominoX, tetrominoY);
 
   // Draw board borders
   
