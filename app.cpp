@@ -19,6 +19,8 @@ App::App(int windowWidth, int windowHeight) {
     if (IsKeyPressed(KEY_DOWN)) game.Tick();
     if (IsKeyPressedRepeat(KEY_DOWN)) game.Tick();
 
+    if (IsKeyPressed(KEY_P)) game.suspended = !game.suspended;
+
     game.Update();
 
     // Drawing

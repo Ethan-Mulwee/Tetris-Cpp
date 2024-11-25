@@ -11,6 +11,7 @@ TetrisGame::TetrisGame() {
 }
 
 void TetrisGame::Move(int x, int y) {
+  if (suspended) return;
   if (TetrominoFits(activeTetromino, activeX+x, activeY+y)) {
     activeX += x;
     activeY += y;
@@ -18,6 +19,7 @@ void TetrisGame::Move(int x, int y) {
 }
 
 void TetrisGame::Rotate(int r) {
+  if (suspended) return;
   if (TetrominoFits(RotateTetromino(activeTetromino, r), activeX, activeY))
     activeTetromino = RotateTetromino(activeTetromino, r);
 }
@@ -32,6 +34,7 @@ void TetrisGame::Update() {
 }
 
 void TetrisGame::Tick() {
+  if (suspended) return;
   if(TetrominoFits(activeTetromino, activeX, activeY+1)) {
     activeY += 1;
   }
