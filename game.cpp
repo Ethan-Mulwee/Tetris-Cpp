@@ -11,12 +11,18 @@ TetrisGame::TetrisGame() {
 }
 
 void TetrisGame::Move(int x, int y) {
-  tetrominoX += x;
-  tetrominoY += y;
+  if (TetrominoFits(currentTetromino, tetrominoX+x, tetrominoY+y)) {
+    tetrominoX += x;
+    tetrominoY += y;
+  }
 }
 
 void TetrisGame::Rotate(int r) {
-  currentTetromino = RotateTetromino(currentTetromino, r);
+  if (TetrominoFits(RotateTetromino(currentTetromino, r), tetrominoX, tetrominoY))
+    currentTetromino = RotateTetromino(currentTetromino, r);
+}
+
+void TetrisGame::Update() {
 }
 
 void TetrisGame::Tick() {
