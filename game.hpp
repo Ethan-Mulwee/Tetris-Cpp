@@ -30,8 +30,8 @@ class TetrisGame {
   // Go to the next tetromino in queue
   void Next();
 
-  // Shuffles the tetromino queue
-  void Shuffle();
+  // Shuffles tetromino queue
+  void Shuffle(int* array);
 
   // Do game loop
   void Update();
@@ -175,6 +175,7 @@ class TetrisGame {
   bool suspended = false;
 
   int tetrominoQueue_F[7] = {0,1,2,3,4,5,6};
+  int tetrominoQueue_B[7] = {0,1,2,3,4,5,6};
   int tetrominoSelection = 0;
   bool queueSelection;
 

@@ -11,7 +11,8 @@ TetrisGame::TetrisGame() {
       else board[x][y] = 0;
     }
   }
-  Shuffle();
+  Shuffle(tetrominoQueue_F);
+  Shuffle(tetrominoQueue_B);
   activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
 }
 
@@ -40,6 +41,7 @@ void TetrisGame::Place() {
   }
   AddTetromino(activeTetromino, activeX, activeY);
   Next();
+  Tick();
 }
 
 void TetrisGame::Next() {
@@ -48,17 +50,17 @@ void TetrisGame::Next() {
   tetrominoSelection++;
   if (tetrominoSelection == 7) {
     tetrominoSelection = 0;
-    Shuffle();
+    Shuffle(tetrominoQueue_F);
   }
   activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
 }
 
-void TetrisGame::Shuffle() {
+void TetrisGame::Shuffle(int* array) {
   for (int i = 0; i < 7; i++) {
     int r = GetRandomValue(0,6);
-    int temp = tetrominoQueue_F[i];
-    tetrominoQueue_F[i] = tetrominoQueue_F[r];
-    tetrominoQueue_F[r] = temp;
+    int temp = array[i];
+    array[i] = array[r];
+    array[r] = temp;
   }
 }
 
