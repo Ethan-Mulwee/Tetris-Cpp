@@ -1,5 +1,15 @@
 #include "game.hpp"
 
+TetrisGame::TetrisGame() {
+  // Inialize board state
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      if (y == height-1 || (x == 0 || x == width-1)) board[x][y] = 1;
+      else board[x][y] = 0;
+    }
+  }
+}
+
 void TetrisGame::Tick() {
 
 }

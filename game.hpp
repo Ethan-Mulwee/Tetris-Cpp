@@ -12,6 +12,9 @@
 
 class TetrisGame {
   public:
+  // Tetris Game constructor, intializes the board to be blank
+  TetrisGame();
+
   // Gets tetromino from queue
   Tetromino GetTetromino(int selection);
 
