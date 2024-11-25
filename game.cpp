@@ -31,6 +31,14 @@ void TetrisGame::Place() {
 }
 
 void TetrisGame::Update() {
+  auto currentUpdateTime = clock.now();
+  deltaTime = currentUpdateTime - lastUpdateTime;
+  lastUpdateTime = currentUpdateTime;
+  logicTimer += deltaTime;
+  if (logicTimer.count() > 1) {
+    logicTimer = std::chrono::duration<double>();
+    Tick();
+  }
 }
 
 void TetrisGame::Tick() {

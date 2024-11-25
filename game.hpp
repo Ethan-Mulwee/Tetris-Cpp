@@ -182,9 +182,9 @@ class TetrisGame {
 
   // Timing
   std::chrono::steady_clock clock;
-  std::chrono::steady_clock::time_point lastTickTime = clock.now();
-  std::chrono::duration<double> deltaTickTime;
-  std::chrono::duration<double> logicTickTimer;
+  std::chrono::steady_clock::time_point lastUpdateTime = clock.now();
+  std::chrono::duration<double> deltaTime;
+  std::chrono::duration<double> logicTimer;
   bool logicTick;
 };
 
