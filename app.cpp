@@ -1,12 +1,16 @@
 #include <raylib.h>
 
 #include "app.hpp"
+#include "ai.hpp"
 
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth, windowHeight, "Tetris");
 
   game.renderPosX = 0;
   game.renderPosY = 0;
+
+  TetrisAI ai;
+  ai.game = &game;
 
   while (!WindowShouldClose()) {
     // Game input
@@ -28,6 +32,7 @@ App::App(int windowWidth, int windowHeight) {
 
     if (IsKeyPressed(KEY_P)) game.suspended = !game.suspended;
 
+    ai.Update();
     game.Update();
 
     // Drawing
