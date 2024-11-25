@@ -16,8 +16,11 @@ App::App(int windowWidth, int windowHeight) {
     if (IsKeyPressed(KEY_UP)) {
       game.Rotate(1);
     }
+    if (IsKeyPressed(KEY_DOWN)) {
+      game.Tick();
+    }
 
-    game.Tick();
+    game.Update();
 
     // Drawing
     BeginDrawing();

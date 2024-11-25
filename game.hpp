@@ -25,6 +25,9 @@ class TetrisGame {
   void Rotate(int r);
 
   // Do game loop
+  void Update();
+
+  // Do tetris logic
   void Tick();
 
   // Draw
