@@ -194,6 +194,7 @@ class TetrisGame {
   std::chrono::steady_clock::time_point lastUpdateTime = clock.now();
   std::chrono::duration<double> deltaTime;
   std::chrono::duration<double> logicTimer;
+  std::chrono::duration<double> suspendTimer;
   bool logicTick;
 };
 

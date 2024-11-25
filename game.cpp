@@ -122,6 +122,13 @@ void TetrisGame::Update() {
     logicTimer = std::chrono::duration<double>();
     Tick();
   }
+  if (suspended) {
+    suspendTimer += deltaTime;
+    if (suspendTimer.count() > 1.0f) {
+      suspendTimer = std::chrono::duration<double>();
+      suspended = false;
+    }
+  }
 }
 
 void TetrisGame::Tick() {
