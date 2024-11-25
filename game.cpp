@@ -13,20 +13,25 @@ TetrisGame::TetrisGame() {
   }
   Shuffle(tetrominoQueue_F);
   Shuffle(tetrominoQueue_B);
-  activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
+  queueSelection = false;
+  tetrominoSelection = 0;
+  for (int i = 0; i < 7; i++) {
+    std::cout << tetrominoQueue_F[i] << "\n";
+  }
+  activeTetromino = GetTetromino(tetrominoSelection);
 }
 
 Tetromino TetrisGame::GetTetromino(int selection)
 {
-  if (queueSelection) {
+  if (!queueSelection) {
     if (selection > 6) {
-      return tetrominos[tetrominoQueue_B[selection]];
+      return tetrominos[tetrominoQueue_B[selection-7]];
     }
     return tetrominos[tetrominoQueue_F[selection]];
   }
   else {
     if (selection > 6) {
-      return tetrominos[tetrominoQueue_F[selection]];
+      return tetrominos[tetrominoQueue_F[selection-7]];
     }
     return tetrominos[tetrominoQueue_B[selection]];
   }
@@ -62,7 +67,11 @@ void TetrisGame::Next() {
   tetrominoSelection++;
   if (tetrominoSelection == 7) {
     tetrominoSelection = 0;
-    Shuffle(tetrominoQueue_F);
+    queueSelection = !queueSelection;
+    if (queueSelection)
+      Shuffle(tetrominoQueue_F);
+    else
+      Shuffle(tetrominoQueue_B);
   }
   activeTetromino = GetTetromino(tetrominoSelection);
   // Check for loss
@@ -219,10 +228,13 @@ void TetrisGame::Draw() {
   DrawLine(LeftX, TopY, RightX, TopY, WHITE);
 
   DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 33, "STORED: ");
-  //DrawTetrominoUI(nextTetromino, RightX+178, TopY+40, 33, "NEXT: ");
+  DrawTetrominoUI(GetTetromino(tetrominoSelection+1), RightX+178, TopY+40, 33, "NEXT: ");
 
   if (over) {
     DrawRectangle(0,0,600, 600, Color{30,30,30,5});
     DrawText("GAME OVER", 85,5, 20, WHITE);
   }
+  // Debug code
+  // std::string queueSelectionState = "queueSelection: " + std::to_string(queueSelection);
+  // DrawText(queueSelectionState.c_str(), 400, 200, 20, WHITE);
 }

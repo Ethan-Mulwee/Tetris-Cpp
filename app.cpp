@@ -413,12 +413,12 @@ App::App(int windowWidth, int windowHeight) {
 
 //     EndDrawing();
 //   }
-//   Loss:
-//   while(!WindowShouldClose()) {
-//     BeginDrawing();
-//       DrawRectangle(0,0,windowWidth, windowHeight, Color{30,30,30,5});
-//       DrawText("GAME OVER", 85,5, 20, WHITE);
-//     EndDrawing();
-//   }
+  // Loss:
+  // while(!WindowShouldClose()) {
+  //   BeginDrawing();
+      // DrawRectangle(0,0,windowWidth, windowHeight, Color{30,30,30,5});
+      // DrawText("GAME OVER", 85,5, 20, WHITE);
+  //   EndDrawing();
+  // }
 //   CloseWindow();
 // }
