@@ -196,6 +196,8 @@ class TetrisGame {
   };
 
   // Timing
+  float gameSpeed;
+
   std::chrono::steady_clock clock;
   std::chrono::steady_clock::time_point lastUpdateTime = clock.now();
   std::chrono::duration<double> deltaTime;

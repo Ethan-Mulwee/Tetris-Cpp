@@ -19,6 +19,7 @@ TetrisGame::TetrisGame() {
     std::cout << tetrominoQueue_F[i] << "\n";
   }
   activeTetromino = GetTetromino(tetrominoSelection);
+  gameSpeed = 0.65f;
 }
 
 Tetromino TetrisGame::GetTetromino(int selection)
@@ -59,6 +60,7 @@ void TetrisGame::Place() {
   AddTetromino(activeTetromino, activeX, activeY);
   Check();
   Next();
+  // gameSpeed -= 0.05f*gameSpeed;
 }
 
 void TetrisGame::Next() {
@@ -114,7 +116,7 @@ void TetrisGame::Update() {
   deltaTime = currentUpdateTime - lastUpdateTime;
   lastUpdateTime = currentUpdateTime;
   logicTimer += deltaTime;
-  if (logicTimer.count() > 1) {
+  if (logicTimer.count() > gameSpeed) {
     logicTimer = std::chrono::duration<double>();
     Tick();
   }
