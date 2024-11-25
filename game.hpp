@@ -27,6 +27,9 @@ class TetrisGame {
   // Place the active tetromino
   void Place();
 
+  // Go to the next tetromino in queue
+  void Next();
+
   // Do game loop
   void Update();
 

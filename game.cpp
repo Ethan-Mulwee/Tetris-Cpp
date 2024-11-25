@@ -26,8 +26,14 @@ void TetrisGame::Rotate(int r) {
 
 void TetrisGame::Place() {
   AddTetromino(activeTetromino, activeX, activeY);
+  Next();
+}
+
+void TetrisGame::Next() {
   activeX = 4;
   activeY = 0;
+  tetrominoSelection++;
+  activeTetromino = tetrominos[tetrominoQueue[tetrominoSelection]];
 }
 
 void TetrisGame::Update() {
