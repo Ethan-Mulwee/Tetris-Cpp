@@ -53,7 +53,24 @@ void TetrisGame::Next() {
     Shuffle(tetrominoQueue_F);
   }
   activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
+  // game state
   logicTimer = std::chrono::duration<double>();
+  swapped = false;
+}
+
+void TetrisGame::Swap() {
+  // if the player already swapped
+  if (swapped) return;
+  if (stored) {
+    Tetromino temp = activeTetromino;
+    activeTetromino = storedTetromino;
+    storedTetromino = temp;
+  }
+  else {
+    storedTetromino = activeTetromino;
+    stored = true;
+    Next();
+  }
 }
 
 void TetrisGame::Shuffle(int* array) {

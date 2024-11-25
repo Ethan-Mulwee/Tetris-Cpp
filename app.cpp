@@ -21,6 +21,8 @@ App::App(int windowWidth, int windowHeight) {
 
     if (IsKeyPressed(KEY_SPACE)) game.Place();
 
+    if (IsKeyPressed(KEY_S)) game.Swap();
+
     if (IsKeyPressed(KEY_P)) game.suspended = !game.suspended;
 
     game.Update();

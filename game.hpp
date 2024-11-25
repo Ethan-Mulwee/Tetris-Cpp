@@ -30,6 +30,9 @@ class TetrisGame {
   // Go to the next tetromino in queue
   void Next();
 
+  // Swaps the stored tetromino and active
+  void Swap();
+
   // Shuffles tetromino queue
   void Shuffle(int* array);
 
