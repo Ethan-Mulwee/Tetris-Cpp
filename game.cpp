@@ -33,7 +33,20 @@ void TetrisGame::Next() {
   activeX = 4;
   activeY = 0;
   tetrominoSelection++;
+  if (tetrominoSelection == 7) {
+    tetrominoSelection = 0;
+    Shuffle();
+  }
   activeTetromino = tetrominos[tetrominoQueue[tetrominoSelection]];
+}
+
+void TetrisGame::Shuffle() {
+  for (int i = 0; i < 7; i++) {
+    int r = GetRandomValue(0,7-1);
+    int temp = tetrominoQueue[i];
+    tetrominoQueue[i] = tetrominoQueue[r];
+    tetrominoQueue[r] = temp;
+  }
 }
 
 void TetrisGame::Update() {
