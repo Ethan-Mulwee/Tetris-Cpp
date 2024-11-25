@@ -1,4 +1,5 @@
 #include "ai.hpp"
+#include <iostream>
 
 void TetrisAI::Update() {
   auto currentUpdateTime = clock.now();
@@ -6,12 +7,15 @@ void TetrisAI::Update() {
   lastUpdateTime = currentUpdateTime;
   logicTimer += deltaTime;
   if (logicTimer.count() > 0.5f) {
-    if ((game->board[10][19]) == 0) {
-      switch(GetRandomValue(0,6)) {
+      switch(GetRandomValue(0,1)) {
         case 0: 
-          game->Tick(); break;
+          game->Tick(); 
+          std::cout << TetrominoMatches(game->activeTetromino, game->activeX, game->activeY) << "\n";
+          break;
         case 1: 
-          game->Move(1,0); break;
+          game->Move(1,0);
+          std::cout << TetrominoMatches(game->activeTetromino, game->activeX, game->activeY) << "\n";
+          break;
         case 2: 
           game->Move(-1,0); break;
         case 3: 
@@ -23,10 +27,26 @@ void TetrisAI::Update() {
         case 6:
           game->Place(); break;
       }
-    }
-    else {
-      game->Place();
-    }
     logicTimer = std::chrono::duration<double>();
   }
+}
+
+bool TetrisAI::TetrominoMatches(Tetromino tetromino, int x, int y) {
+  while (game->TetrominoFits(tetromino, x, y+1)) {
+    y++;
+  }
+  bool result = true;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (j < 3) {
+        if (tetromino.shape[i][j] != 0 && tetromino.shape[i][j+1] == 0) {
+          result = result && (game->board[i+x][j+y+1] != 0);
+        }
+      }
+      else if (tetromino.shape[i][j] != 0) {
+        result = result && (game->board[i+x][j+y+1] != 0);
+      }
+    }
+  }
+  return result;
 }

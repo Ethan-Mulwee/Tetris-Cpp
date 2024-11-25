@@ -48,7 +48,8 @@ class TetrisGame {
   // Draw
   void Draw();
 
-  private:
+  // TODO: should be private sort out AI functions for tetrominos in tetrminos hpp
+  public:
 
   // Converts int to render cordinates
   int RenderCordX(int i);
@@ -177,8 +178,8 @@ class TetrisGame {
   int tetrominoQueue_B[7] = {0,1,2,3,4,5,6};
   int tetrominoSelection = 0;
   bool queueSelection;
-
-  private:
+  // TODO: should be private sort out tetromino functions for AI
+  public:
   Tetromino activeTetromino;
   Tetromino storedTetromino = Tetromino{
     0,0,0,0,
