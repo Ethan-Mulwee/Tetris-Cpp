@@ -1,6 +1,9 @@
 #include "game.hpp"
 
+#include <ctime>
+
 TetrisGame::TetrisGame() {
+  SetRandomSeed(time(0));
   // Inialize board state
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
@@ -8,6 +11,13 @@ TetrisGame::TetrisGame() {
       else board[x][y] = 0;
     }
   }
+  Shuffle();
+  activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
+}
+
+Tetromino TetrisGame::GetTetromino(int selection)
+{
+  return Tetromino();
 }
 
 void TetrisGame::Move(int x, int y) {
@@ -37,15 +47,15 @@ void TetrisGame::Next() {
     tetrominoSelection = 0;
     Shuffle();
   }
-  activeTetromino = tetrominos[tetrominoQueue[tetrominoSelection]];
+  activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
 }
 
 void TetrisGame::Shuffle() {
   for (int i = 0; i < 7; i++) {
-    int r = GetRandomValue(0,7-1);
-    int temp = tetrominoQueue[i];
-    tetrominoQueue[i] = tetrominoQueue[r];
-    tetrominoQueue[r] = temp;
+    int r = GetRandomValue(0,6);
+    int temp = tetrominoQueue_F[i];
+    tetrominoQueue_F[i] = tetrominoQueue_F[r];
+    tetrominoQueue_F[r] = temp;
   }
 }
 

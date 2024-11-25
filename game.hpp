@@ -174,11 +174,12 @@ class TetrisGame {
   bool swapped = false;
   bool suspended = false;
 
-  int tetrominoQueue[7] = {0,1,2,3,4,5,6};
+  int tetrominoQueue_F[7] = {0,1,2,3,4,5,6};
   int tetrominoSelection = 0;
+  bool queueSelection;
 
   private:
-  Tetromino activeTetromino = tetrominos[GetRandomValue(0,6)];
+  Tetromino activeTetromino;
   Tetromino storedTetromino = Tetromino{
     0,0,0,0,
     0,0,0,0,
