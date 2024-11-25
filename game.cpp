@@ -18,7 +18,18 @@ TetrisGame::TetrisGame() {
 
 Tetromino TetrisGame::GetTetromino(int selection)
 {
-  return Tetromino();
+  if (queueSelection) {
+    if (selection > 6) {
+      return tetrominos[tetrominoQueue_B[selection]];
+    }
+    return tetrominos[tetrominoQueue_F[selection]];
+  }
+  else {
+    if (selection > 6) {
+      return tetrominos[tetrominoQueue_F[selection]];
+    }
+    return tetrominos[tetrominoQueue_B[selection]];
+  }
 }
 
 void TetrisGame::Move(int x, int y) {
@@ -36,6 +47,7 @@ void TetrisGame::Rotate(int r) {
 }
 
 void TetrisGame::Place() {
+  if (suspended) return;
   while(TetrominoFits(activeTetromino, activeX, activeY+1)) {
     activeY++;
   }
@@ -52,7 +64,11 @@ void TetrisGame::Next() {
     tetrominoSelection = 0;
     Shuffle(tetrominoQueue_F);
   }
-  activeTetromino = tetrominos[tetrominoQueue_F[tetrominoSelection]];
+  activeTetromino = GetTetromino(tetrominoSelection);
+  // Check for loss
+  if (!TetrominoFits(activeTetromino, activeX, activeY)) {
+    over = true;
+  }
   // game state
   logicTimer = std::chrono::duration<double>();
   swapped = false;
@@ -65,6 +81,8 @@ void TetrisGame::Swap() {
     Tetromino temp = activeTetromino;
     activeTetromino = storedTetromino;
     storedTetromino = temp;
+    activeX = 4;
+    activeY = 0;
   }
   else {
     storedTetromino = activeTetromino;
@@ -202,4 +220,9 @@ void TetrisGame::Draw() {
 
   DrawTetrominoUI(storedTetromino, RightX+20, TopY+40, 33, "STORED: ");
   //DrawTetrominoUI(nextTetromino, RightX+178, TopY+40, 33, "NEXT: ");
+
+  if (over) {
+    DrawRectangle(0,0,600, 600, Color{30,30,30,5});
+    DrawText("GAME OVER", 85,5, 20, WHITE);
+  }
 }

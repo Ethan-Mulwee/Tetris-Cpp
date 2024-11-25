@@ -179,6 +179,7 @@ class TetrisGame {
   bool stored = false;
   bool swapped = false;
   bool suspended = false;
+  bool over = false;
 
   int tetrominoQueue_F[7] = {0,1,2,3,4,5,6};
   int tetrominoQueue_B[7] = {0,1,2,3,4,5,6};
