@@ -24,6 +24,9 @@ class TetrisGame {
   // Rotate the active tetromino
   void Rotate(int r);
 
+  // Place the active tetromino
+  void Place();
+
   // Do game loop
   void Update();
 
@@ -99,14 +102,14 @@ class TetrisGame {
     }
   }
 
-  void PlaceTetromino(Tetromino &tetromino, Tetromino &nextTetromino, int x, int y) {
-    AddTetromino(tetromino, tetrominoX, tetrominoY);
-    tetrominoX = 4;
-    tetrominoY = 0;
-    tetromino = nextTetromino;
-    nextTetromino = tetrominos[GetRandomValue(0,6)];
-    swapped = false;
-  }
+  // void PlaceTetromino() {
+  //   AddTetromino(tetromino, tetrominoX, tetrominoY);
+  //   tetrominoX = 4;
+  //   tetrominoY = 0;
+  //   tetromino = nextTetromino;
+  //   nextTetromino = tetrominos[GetRandomValue(0,6)];
+  //   swapped = false;
+  // }
 
   // Board functions
   bool CheckLine(int y) {

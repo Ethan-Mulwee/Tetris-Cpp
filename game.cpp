@@ -22,11 +22,57 @@ void TetrisGame::Rotate(int r) {
     currentTetromino = RotateTetromino(currentTetromino, r);
 }
 
+void TetrisGame::Place() {
+  AddTetromino(currentTetromino, tetrominoX, tetrominoY);
+  tetrominoX = 4;
+  tetrominoY = 0;
+}
+
 void TetrisGame::Update() {
 }
 
 void TetrisGame::Tick() {
+  if(TetrominoFits(currentTetromino, tetrominoX, tetrominoY+1)) {
+    tetrominoY += 1;
+  }
+  else {
+    Place();
+    if (!TetrominoFits(currentTetromino, tetrominoX, tetrominoY)) {
+      // TODO: proper loss screen
+      // goto Loss;
+    }
+  }
+  // Check line clears
+  bool markedLines[height-1] = {};
+  int ClearedLines = 0;
+  for (int j = 0; j < height-1; j++) {
+    markedLines[j] = CheckLine(j);
+    if (markedLines[j]) ClearedLines++;
+  }
+  // Add score
+  switch(ClearedLines) {
+    case 0:
+      break;
+    case 1:
+      score += 10;
+      break;
+    case 2:
+      score += 20;
+      break;
+    case 3:
+      score += 50;
+      break;
+    case 4:
+      score += 100;
+      break;
+  }
 
+  // Clear lines
+  for (int line = 0; line < height-1; line++) {
+    if (markedLines[line]) {
+      ClearLine(line);
+    }
+  }
 }
 
 void TetrisGame::Draw() {

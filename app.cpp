@@ -300,48 +300,48 @@ App::App(int windowWidth, int windowHeight) {
 
 //     // Logic
 //     if (GameTick) {
-//       if(TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
-//         tetrominoY += 1;
-//       }
-//       else {
-//         PlaceTetromino(tetromino, nextTetromino, tetrominoX, tetrominoY);
-//         if (!TetrominoFits(tetromino, tetrominoX, tetrominoY)) {
-//           // TODO: proper loss screen
-//           goto Loss;
-//         }
-//       }
-//       // Check line clears
-//       bool markedLines[height-1] = {};
-//       int ClearedLines = 0;
-//       for (int j = 0; j < height-1; j++) {
-//         markedLines[j] = CheckLine(j);
-//         if (markedLines[j]) ClearedLines++;
-//       }
-//       // Add score
-//       switch(ClearedLines) {
-//         case 0:
-//           break;
-//         case 1:
-//           score += 10;
-//           break;
-//         case 2:
-//           score += 20;
-//           break;
-//         case 3:
-//           score += 50;
-//           break;
-//         case 4:
-//           score += 100;
-//           break;
-//       }
+      // if(TetrominoFits(tetromino, tetrominoX, tetrominoY+1)) {
+      //   tetrominoY += 1;
+      // }
+      // else {
+      //   PlaceTetromino(tetromino, nextTetromino, tetrominoX, tetrominoY);
+      //   if (!TetrominoFits(tetromino, tetrominoX, tetrominoY)) {
+      //     // TODO: proper loss screen
+      //     goto Loss;
+      //   }
+      // }
+      // // Check line clears
+      // bool markedLines[height-1] = {};
+      // int ClearedLines = 0;
+      // for (int j = 0; j < height-1; j++) {
+      //   markedLines[j] = CheckLine(j);
+      //   if (markedLines[j]) ClearedLines++;
+      // }
+      // // Add score
+      // switch(ClearedLines) {
+      //   case 0:
+      //     break;
+      //   case 1:
+      //     score += 10;
+      //     break;
+      //   case 2:
+      //     score += 20;
+      //     break;
+      //   case 3:
+      //     score += 50;
+      //     break;
+      //   case 4:
+      //     score += 100;
+      //     break;
+      // }
 
-//       // Clear lines
-//       for (int line = 0; line < height-1; line++) {
-//         if (markedLines[line]) {
-//           ClearLine(line);
-//         }
-//       }
-//       GameTick = false;
+      // // Clear lines
+      // for (int line = 0; line < height-1; line++) {
+      //   if (markedLines[line]) {
+      //     ClearLine(line);
+      //   }
+      // }
+      // GameTick = false;
 //     }
 
 //     // Drawing
