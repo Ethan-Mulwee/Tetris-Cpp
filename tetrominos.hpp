@@ -1,8 +1,11 @@
+#ifndef TETRIS_TETROMINOS
+#define TETRIS_TETROMINOS
+
 struct Tetromino {
   char shape[4][4];
 };
 
-Tetromino tetrominos[7] = {
+inline Tetromino tetrominos[7] = {
   // o
   Tetromino {
     0,0,0,0,
@@ -53,3 +56,5 @@ Tetromino tetrominos[7] = {
     0,0,0,0
   }
 };
+
+#endif
