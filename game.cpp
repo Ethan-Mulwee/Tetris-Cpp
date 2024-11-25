@@ -20,6 +20,8 @@ TetrisGame::TetrisGame() {
   }
   activeTetromino = GetTetromino(tetrominoSelection);
   gameSpeed = 0.65f;
+  renderPosX = 0;
+  renderPosY = 0;
 }
 
 Tetromino TetrisGame::GetTetromino(int selection)
@@ -176,10 +178,10 @@ void TetrisGame::Draw() {
 
   // Draw UI
 
-  int LeftX = (1+boardOffsetX)*renderScale;
-  int RightX = (width-1+boardOffsetX)*renderScale;
-  int BottomY = (height-1+boardOffsetY)*renderScale;
-  int TopY = (boardOffsetY)*renderScale;
+  int LeftX =  RenderCordX((1+boardOffsetX));
+  int RightX = RenderCordX((width-1+boardOffsetX));
+  int BottomY = RenderCordY((height-1+boardOffsetY));
+  int TopY =    RenderCordY((boardOffsetY));
 
   // Draw Score
   DrawRectangle(RightX+15, TopY, 300, 30, Color{20,20,20,255});
@@ -201,7 +203,7 @@ void TetrisGame::Draw() {
   for (int y = 0; y < height-1; y++) {
     for (int x = 1; x < width-1; x++) {
       if ((x+y)%2 == 1) {
-        DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale, Color{25,25,25,100});
+        DrawRectangle(RenderCordX((x+boardOffsetX)),RenderCordY((y+boardOffsetY)),renderScale,renderScale, Color{25,25,25,100});
       }
     }
   }
@@ -210,8 +212,8 @@ void TetrisGame::Draw() {
   // Draw placed tetrominoes
   for (int y = 0; y < height-1; y++) {
     for (int x = 1; x < width-1; x++) {
-      DrawRectangle((x+boardOffsetX)*renderScale,(y+boardOffsetY)*renderScale,renderScale,renderScale,colors[board[x][y]]);
-      DrawRectangle((x+boardOffsetX)*renderScale+2,(y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],-0.1f));
+      DrawRectangle(RenderCordX((x+boardOffsetX)),RenderCordY((y+boardOffsetY)),renderScale,renderScale,colors[board[x][y]]);
+      DrawRectangle(RenderCordX((x+boardOffsetX))+2,RenderCordY((y+boardOffsetY))+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],-0.1f));
     }
   }
 
@@ -239,4 +241,41 @@ void TetrisGame::Draw() {
   // Debug code
   // std::string queueSelectionState = "queueSelection: " + std::to_string(queueSelection);
   // DrawText(queueSelectionState.c_str(), 400, 200, 20, WHITE);
+}
+
+int TetrisGame::RenderCordX(int i) {
+  return (i*renderScale)+renderPosX;
+}
+int TetrisGame::RenderCordY(int i) {
+  return (i*renderScale)+renderPosY;
+}
+
+float TetrisGame::RenderCordX(float f) {
+  return (f*renderScale)+renderPosX;
+}
+float TetrisGame::RenderCordY(float f) {
+  return (f*renderScale)+renderPosY;
+}
+
+void TetrisGame::DrawTetromino(Tetromino tetromino, int x, int y) {
+  for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 4; i++) {
+      DrawRectangle(RenderCordX((i+x+boardOffsetX)),RenderCordY((j+y+boardOffsetY)),renderScale,renderScale,colors[tetromino.shape[i][j]]);
+      DrawRectangle(RenderCordX((i+x+boardOffsetX))+2,RenderCordY((j+y+boardOffsetY))+2,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
+    }
+  }
+}
+
+void TetrisGame::DrawPreview(Tetromino tetromino, int x, int y) {
+  while(TetrominoFits(tetromino, x, y+1)) {
+    y++;
+  }
+  for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 4; i++) {
+      Color color = colors[tetromino.shape[i][j]];
+      color.a = 20;
+      if (tetromino.shape[i][j] != 0)
+        DrawRectangle(RenderCordX((i+x+boardOffsetX)),RenderCordY((j+y+boardOffsetY)),renderScale,renderScale,color);
+    }
+  }
 }

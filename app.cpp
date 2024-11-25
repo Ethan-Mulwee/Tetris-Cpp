@@ -5,6 +5,9 @@
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth, windowHeight, "Tetris");
 
+  game.renderPosX = 100;
+  game.renderPosY = 0;
+
   while (!WindowShouldClose()) {
     // Game input
     if (IsKeyPressed(KEY_RIGHT)) game.Move(1,0);

@@ -1,5 +1,5 @@
 #include "app.hpp"
 
 int main() {
-  App app(600, 550);
+  App app(1200, 550);
 }

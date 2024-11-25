@@ -12,7 +12,7 @@
 
 class TetrisGame {
   public:
-  // Tetris Game constructor, intializes the board to be blank
+  // Tetris Game constructor, intializes values
   TetrisGame();
 
   // Gets tetromino from queue
@@ -49,6 +49,15 @@ class TetrisGame {
   void Draw();
 
   private:
+
+  // Converts int to render cordinates
+  int RenderCordX(int i);
+  int RenderCordY(int i);
+
+  // Convert float to render cordinates
+  float RenderCordX(float f);
+  float RenderCordY(float f);
+
   // Returns tetromino rotated
   Tetromino RotateTetromino(Tetromino tetromino, int times) {
     Tetromino result;
@@ -72,28 +81,9 @@ class TetrisGame {
     return result;
   }
 
-  void DrawTetromino(Tetromino tetromino, int x, int y) {
-    for (int j = 0; j < 4; j++) {
-      for (int i = 0; i < 4; i++) {
-        DrawRectangle((i+x+boardOffsetX)*renderScale,(j+y+boardOffsetY)*renderScale,renderScale,renderScale,colors[tetromino.shape[i][j]]);
-        DrawRectangle((i+x+boardOffsetX)*renderScale+2,(j+y+boardOffsetY)*renderScale+2,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
-      }
-    }
-  }
+  void DrawTetromino(Tetromino tetromino, int x, int y);
 
-  void DrawPreview(Tetromino tetromino, int x, int y) {
-    while(TetrominoFits(tetromino, x, y+1)) {
-      y++;
-    }
-    for (int j = 0; j < 4; j++) {
-      for (int i = 0; i < 4; i++) {
-        Color color = colors[tetromino.shape[i][j]];
-        color.a = 20;
-        if (tetromino.shape[i][j] != 0)
-          DrawRectangle((i+x+boardOffsetX)*renderScale,(j+y+boardOffsetY)*renderScale,renderScale,renderScale,color);
-      }
-    }
-  }
+  void DrawPreview(Tetromino tetromino, int x, int y);
 
   void PrintTetromino(Tetromino tetromino) {
     for (int j = 0; j < 4; j++) {
@@ -168,6 +158,8 @@ class TetrisGame {
   const int boardOffsetX = 0;
   const int boardOffsetY = 1;
   const int renderScale = 25;
+  int renderPosX;
+  int renderPosY;
 
   int score = 0;
 
