@@ -45,8 +45,8 @@ class TetrisGame {
   // Handle line clears
   void Check();
 
-  // Draw
-  void Draw();
+  // Draw game
+  void Draw(float renderScale, float renderX, float renderY);
 
   // TODO: should be private sort out AI functions for tetrominos in tetrminos hpp
   public:
@@ -58,18 +58,6 @@ class TetrisGame {
   // Convert float to render cordinates
   float RenderCordX(float f);
   float RenderCordY(float f);
-
-  // Returns tetromino rotated
-  Tetromino RotateTetromino(Tetromino tetromino, int times) {
-    Tetromino result;
-    for (int j = 0; j < 4; j++) {
-      for (int i = 0; i < 4; i++) {
-        // transposes for the moment
-        result.shape[i][j] = tetromino.shape[j][3-i];
-      }
-    }
-    return result;
-  }
   
   // Check if tetromino its in board position
   bool TetrominoFits(Tetromino tetromino, int x, int y) {

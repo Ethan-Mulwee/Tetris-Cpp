@@ -3,6 +3,7 @@
 #include <ctime>
 
 TetrisGame::TetrisGame() {
+  // TODO: cleanup intialization code
   SetRandomSeed(time(0));
   // Inialize board state
   for (int y = 0; y < height; y++) {
@@ -20,8 +21,6 @@ TetrisGame::TetrisGame() {
   }
   activeTetromino = GetTetromino(tetrominoSelection);
   gameSpeed = 0.65f;
-  renderPosX = 0;
-  renderPosY = 0;
 }
 
 Tetromino TetrisGame::GetTetromino(int selection)
@@ -41,7 +40,6 @@ Tetromino TetrisGame::GetTetromino(int selection)
 }
 
 void TetrisGame::Move(int x, int y) {
-  if (suspended) return;
   if (TetrominoFits(activeTetromino, activeX+x, activeY+y)) {
     activeX += x;
     activeY += y;
@@ -49,13 +47,11 @@ void TetrisGame::Move(int x, int y) {
 }
 
 void TetrisGame::Rotate(int r) {
-  if (suspended) return;
   if (TetrominoFits(RotateTetromino(activeTetromino, r), activeX, activeY))
     activeTetromino = RotateTetromino(activeTetromino, r);
 }
 
 void TetrisGame::Place() {
-  if (suspended) return;
   while(TetrominoFits(activeTetromino, activeX, activeY+1)) {
     activeY++;
   }
@@ -180,7 +176,7 @@ void TetrisGame::Check() {
   }
 }
 
-void TetrisGame::Draw() {
+void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
   ClearBackground(Color{31,31,31,255});
 
   // Draw UI

@@ -57,4 +57,16 @@ inline Tetromino tetrominos[7] = {
   }
 };
 
+// Returns tetromino rotated
+inline Tetromino RotateTetromino(Tetromino tetromino, int times) {
+  Tetromino result;
+  for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 4; i++) {
+      // transposes for the moment
+      result.shape[i][j] = tetromino.shape[j][3-i];
+    }
+  }
+  return result;
+}
+
 #endif

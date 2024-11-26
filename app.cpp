@@ -9,8 +9,10 @@ App::App(int windowWidth, int windowHeight) {
   game.renderPosX = 0;
   game.renderPosY = 0;
 
-  TetrisAI ai;
-  ai.game = &game;
+  game.gameSpeed = 100;
+
+  // TetrisAI ai;
+  // ai.game = &game;
 
   while (!WindowShouldClose()) {
     // Game input
@@ -32,12 +34,12 @@ App::App(int windowWidth, int windowHeight) {
 
     if (IsKeyPressed(KEY_P)) game.suspended = !game.suspended;
 
-    ai.Update();
+    // ai.Update();
     game.Update();
 
     // Drawing
     BeginDrawing();
-      game.Draw();
+      game.Draw(22,0,0);
     EndDrawing();
   }
 }
