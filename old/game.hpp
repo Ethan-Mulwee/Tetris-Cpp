@@ -49,17 +49,37 @@ class TetrisGame {
   // Draw game
   void Draw(float renderScale, float renderX, float renderY);
 
-  private:
+  // NOTE: temp
+  void BoardEval();
+
+  // TODO: should be private sort out AI functions for tetrominos in tetrminos hpp
+  public:
 
   void DrawPreview(Tetromino tetromino, int x, int y);
 
-  void DrawTetromino(Tetromino tetromino, int x, int y);
-
   // UI drawing functions
-  void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char* str);
+  void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char* str) {
+    // TODO: Refractor the draw tetromino function so you can use it here and avoid duplication
+    DrawRectangle(x-5,y-5,4*scale+10,4*scale+10+20,Color{20,20,20,255});
+    for (int j = 0; j < 4; j++) {
+      for (int i = 0; i < 4; i++) {
+        DrawRectangle((i)*scale+x,(j)*scale+y+20,scale,scale,colors[tetromino.shape[i][j]]);
+        DrawRectangle((i)*scale+2+x,(j)*scale+2+y+20,scale-4,scale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
+      }
+    }
+    DrawRectangleLines(x-5,y-5,4*scale+10,4*scale+10+20,WHITE);
+    int leftX = x;
+    int TopY = y;
+    int RightX = x+4*scale;
+    int BottomY = y+4*scale;
 
-  private:
+    DrawText(str, x, y, 20, WHITE);
+  }
+
+  public:
   Color colors[10] = {Color{0,0,0,0}, LIGHTGRAY, YELLOW, BLUE, RED, GREEN, ORANGE, PINK, PURPLE};
+  const int boardOffsetX = 0;
+  const int boardOffsetY = 1;
 
   int score = 0;
 
@@ -77,7 +97,8 @@ class TetrisGame {
   int tetrominoQueue_B[7] = {0,1,2,3,4,5,6};
   int tetrominoSelection = 0;
   bool queueSelection;
-  
+  // TODO: should be private sort out tetromino functions for AI
+  public:
   Tetromino activeTetromino;
   Tetromino storedTetromino = Tetromino{
     0,0,0,0,

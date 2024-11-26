@@ -169,6 +169,13 @@ void TetrisGame::Check() {
   }
 }
 
+void TetrisGame::DrawPreview(Tetromino tetromino, int x, int y) {
+  while(board.Fits(tetromino, x, y+1)) {
+    y++;
+  }
+  tetromino.Draw(x,y, 25, colors);
+}
+
 void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
   ClearBackground(Color{31,31,31,255});
 
@@ -213,7 +220,7 @@ void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
 
   board.Draw(0,0,25, colors);
 
-  activeTetromino.Draw(activeX, activeY, renderScale, colors);
+  activeTetromino.Draw(activeX*renderScale, activeY*renderScale, renderScale, colors);
   DrawPreview(activeTetromino /* placeholder code */, activeX, activeY);
 
   // Draw board borders
