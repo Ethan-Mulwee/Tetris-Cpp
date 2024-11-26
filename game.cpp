@@ -244,6 +244,25 @@ void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
   // Debug code
   // std::string queueSelectionState = "queueSelection: " + std::to_string(queueSelection);
   // DrawText(queueSelectionState.c_str(), 400, 200, 20, WHITE);
+  BoardEval();
+}
+
+void TetrisGame::BoardEval() {
+  int holes = 0;
+  int aggregateHeight = 0;
+  for (int x = 1; x < width-1; x++) {
+    for (int y = 0; y < height-1; y++) {
+      if (board[x][y] != 0 && board[x][y+1] == 0)
+        holes++;
+      if (board[x][y] != 0)
+        aggregateHeight++;
+    }
+  }
+
+  std::string holeStr = "holes: " + std::to_string(holes);
+  DrawText(holeStr.c_str(), 300, 250, 20, WHITE);
+  std::string heightStr = "height: " + std::to_string(aggregateHeight);
+  DrawText(heightStr.c_str(), 420, 250, 20, WHITE);
 }
 
 int TetrisGame::RenderCordX(int i) {

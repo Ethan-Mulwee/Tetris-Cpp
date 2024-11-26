@@ -48,6 +48,9 @@ class TetrisGame {
   // Draw game
   void Draw(float renderScale, float renderX, float renderY);
 
+  // NOTE: temp
+  void BoardEval();
+
   // TODO: should be private sort out AI functions for tetrominos in tetrminos hpp
   public:
 
