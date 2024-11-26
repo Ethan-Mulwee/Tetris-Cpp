@@ -1,12 +1,14 @@
 #ifndef TETRIS_BOARD
 #define TETRIS_BOARD
 
-#include "tetrominos.hpp"
+#include "tetromino.hpp"
 
 struct Board {
   const static int width = 12;
   const static int height = 21;
   char data[width][height];
+
+  Board();
 
   // Add tetromino to board char array
   void Add(Tetromino tetromino, int x, int y);

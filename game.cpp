@@ -5,13 +5,6 @@
 TetrisGame::TetrisGame() {
   // TODO: cleanup intialization code
   SetRandomSeed(time(0));
-  // Inialize board state
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      if (y == height-1 || (x == 0 || x == width-1)) board[x][y] = 1;
-      else board[x][y] = 0;
-    }
-  }
   Shuffle(tetrominoQueue_F);
   Shuffle(tetrominoQueue_B);
   queueSelection = false;
@@ -40,22 +33,22 @@ Tetromino TetrisGame::GetTetromino(int selection)
 }
 
 void TetrisGame::Move(int x, int y) {
-  if (TetrominoFits(activeTetromino, activeX+x, activeY+y)) {
+  if (board.Fits(activeTetromino, activeX+x, activeY+y)) {
     activeX += x;
     activeY += y;
   }
 }
 
 void TetrisGame::Rotate(int r) {
-  if (TetrominoFits(RotateTetromino(activeTetromino, r), activeX, activeY))
-    activeTetromino = RotateTetromino(activeTetromino, r);
+  if (board.Fits(activeTetromino.Rotated(r), activeX, activeY))
+    activeTetromino.Rotate(r);
 }
 
 void TetrisGame::Place() {
-  while(TetrominoFits(activeTetromino, activeX, activeY+1)) {
+  while(board.Fits(activeTetromino, activeX, activeY+1)) {
     activeY++;
   }
-  AddTetromino(activeTetromino, activeX, activeY);
+  board.Add(activeTetromino, activeX, activeY);
   Check();
   Next();
   // gameSpeed -= 0.05f*gameSpeed;
@@ -75,7 +68,7 @@ void TetrisGame::Next() {
   }
   activeTetromino = GetTetromino(tetrominoSelection);
   // Check for loss
-  if (!TetrominoFits(activeTetromino, activeX, activeY)) {
+  if (!board.Fits(activeTetromino, activeX, activeY)) {
     over = true;
   }
   // game state
@@ -129,12 +122,12 @@ void TetrisGame::Update() {
 
 void TetrisGame::Tick() {
   if (suspended) return;
-  if(TetrominoFits(activeTetromino, activeX, activeY+1)) {
+  if(board.Fits(activeTetromino, activeX, activeY+1)) {
     activeY += 1;
   }
   else {
     Place();
-    if (!TetrominoFits(activeTetromino, activeX, activeY)) {
+    if (!board.Fits(activeTetromino, activeX, activeY)) {
       // TODO: proper loss screen
       // goto Loss;
     }
@@ -144,10 +137,10 @@ void TetrisGame::Tick() {
 
 void TetrisGame::Check() {
   // Check line clears
-  bool markedLines[height-1] = {};
+  bool markedLines[board.height-1] = {};
   int ClearedLines = 0;
-  for (int j = 0; j < height-1; j++) {
-    markedLines[j] = CheckLine(j);
+  for (int j = 0; j < board.height-1; j++) {
+    markedLines[j] = board.CheckLine(j);
     if (markedLines[j]) ClearedLines++;
   }
   // Add score
@@ -169,9 +162,9 @@ void TetrisGame::Check() {
   }
 
   // Clear lines
-  for (int line = 0; line < height-1; line++) {
+  for (int line = 0; line < board.height-1; line++) {
     if (markedLines[line]) {
-      ClearLine(line);
+      board.ClearLine(line);
     }
   }
 }
@@ -182,8 +175,8 @@ void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
   // Draw UI
 
   int LeftX =  (1+boardOffsetX)*renderScale+renderX;
-  int RightX = (width-1+boardOffsetX)*renderScale+renderX;
-  int BottomY = (height-1+boardOffsetY)*renderScale+renderY;
+  int RightX = (board.width-1+boardOffsetX)*renderScale+renderX;
+  int BottomY = (board.height-1+boardOffsetY)*renderScale+renderY;
   int TopY =    (boardOffsetY)*renderScale+renderY;
 
   // Draw Score

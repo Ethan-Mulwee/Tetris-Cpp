@@ -8,7 +8,8 @@
 
 #include <raylib.h>
 
-#include "tetrominos.hpp"
+#include "tetromino.hpp"
+#include "board.hpp"
 
 class TetrisGame {
   public:
@@ -79,14 +80,12 @@ class TetrisGame {
 
   public:
   const Color colors[10] = {Color{0,0,0,0}, LIGHTGRAY, YELLOW, BLUE, RED, GREEN, ORANGE, PINK, PURPLE};
-  const static int width = 12;
-  const static int height = 21;
   const int boardOffsetX = 0;
   const int boardOffsetY = 1;
 
   int score = 0;
 
-  char board[width][height];
+  Board board;
   int activeX = 4;
   int activeY = 0;
 

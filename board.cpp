@@ -1,6 +1,15 @@
 #include "board.hpp"
 
-void Board::Add(Tetromino tetromino, int x, int y) {
+Board::Board() {
+  for (int j = 0; j < height; j++) {
+    for (int i = 0; i < width; i++) {
+      data[i][j] = 0;
+    }
+  }
+}
+
+void Board::Add(Tetromino tetromino, int x, int y)
+{
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       if (tetromino.shape[i][j] != 0) 

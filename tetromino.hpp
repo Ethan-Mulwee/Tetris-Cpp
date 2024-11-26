@@ -1,6 +1,8 @@
 #ifndef TETRIS_TETROMINOS
 #define TETRIS_TETROMINOS
 
+#include <raylib.h>
+
 struct Tetromino {
   char shape[4][4];
   inline void Draw(int x, int y, int scale, Color* colors) {
@@ -20,6 +22,16 @@ struct Tetromino {
       }
     }
     *this = result;
+  }
+  inline Tetromino Rotated(int r) {
+    Tetromino result;
+    for (int j = 0; j < 4; j++) {
+      for (int i = 0; i < 4; i++) {
+        // transposes for the moment
+        result.shape[i][j] = shape[j][3-i];
+      }
+    }
+    return result;
   }
 };
 
