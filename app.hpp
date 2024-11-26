@@ -7,7 +7,7 @@ class App {
   public:
     App(int windowWidth, int windowHeight);
   private:
-    TetrisGame game;
+    // TetrisGame game;
 };
 
 #endif
