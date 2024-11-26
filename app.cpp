@@ -7,8 +7,6 @@
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth, windowHeight, "Tetris");
 
-  game.gameSpeed = 100;
-
   // TetrisAI ai;
   // ai.game = &game;
 
@@ -33,15 +31,12 @@ App::App(int windowWidth, int windowHeight) {
 
     if (IsKeyPressed(KEY_S)) game.Swap();
 
-    if (IsKeyPressed(KEY_P)) game.suspended = !game.suspended;
-
     // ai.Update();
     game.Update();
 
     // Drawing
     BeginDrawing();
-      game.Draw(22,0,0);
-      board.Draw(50,50, 25, colors);
+      game.Draw(25,0,0);
     EndDrawing();
   }
 }

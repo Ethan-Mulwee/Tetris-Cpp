@@ -16,9 +16,6 @@ class TetrisGame {
   // Tetris Game constructor, intializes values
   TetrisGame();
 
-  // Gets tetromino from queue
-  Tetromino GetTetromino(int selection);
-
   // Move the active tetromino
   void Move(int x, int y);
 
@@ -55,8 +52,10 @@ class TetrisGame {
 
   void DrawTetromino(Tetromino tetromino, int x, int y);
 
-  // UI drawing functions
   void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char* str);
+
+  // Gets tetromino from queue
+  Tetromino GetTetromino(int selection);
 
   private:
   Color colors[10] = {Color{0,0,0,0}, LIGHTGRAY, YELLOW, BLUE, RED, GREEN, ORANGE, PINK, PURPLE};
@@ -77,7 +76,7 @@ class TetrisGame {
   int tetrominoQueue_B[7] = {0,1,2,3,4,5,6};
   int tetrominoSelection = 0;
   bool queueSelection;
-  
+
   Tetromino activeTetromino;
   Tetromino storedTetromino = Tetromino{
     0,0,0,0,
@@ -87,7 +86,7 @@ class TetrisGame {
   };
 
   // Timing
-  float gameSpeed;
+  float gameRate;
 
   std::chrono::steady_clock clock;
   std::chrono::steady_clock::time_point lastUpdateTime = clock.now();
