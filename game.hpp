@@ -54,75 +54,9 @@ class TetrisGame {
   // TODO: should be private sort out AI functions for tetrominos in tetrminos hpp
   public:
 
-  // Converts int to render cordinates
-  int RenderCordX(int i);
-  int RenderCordY(int i);
-
-  // Convert float to render cordinates
-  float RenderCordX(float f);
-  float RenderCordY(float f);
-  
-  // Check if tetromino its in board position
-  bool TetrominoFits(Tetromino tetromino, int x, int y) {
-    bool result = true;
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        result = result && !(tetromino.shape[i][j] != 0 && board[i+x][j+y] != 0);
-      }
-    }
-    return result;
-  }
-
   void DrawTetromino(Tetromino tetromino, int x, int y);
 
   void DrawPreview(Tetromino tetromino, int x, int y);
-
-  void PrintTetromino(Tetromino tetromino) {
-    for (int j = 0; j < 4; j++) {
-      for (int i = 0; i < 4; i++) {
-        std::cout << (int)tetromino.shape[i][j];
-      }
-      std::cout << "\n";
-    }
-  }
-
-  // Add tetromino to board char array
-  void AddTetromino(Tetromino tetromino, int x, int y) {
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        if (tetromino.shape[i][j] != 0) 
-          board[i+x][j+y] = tetromino.shape[i][j];
-      }
-    }
-  }
-
-  // void PlaceTetromino() {
-  //   AddTetromino(tetromino, tetrominoX, tetrominoY);
-  //   tetrominoX = 4;
-  //   tetrominoY = 0;
-  //   tetromino = nextTetromino;
-  //   nextTetromino = tetrominos[GetRandomValue(0,6)];
-  //   swapped = false;
-  // }
-
-  // Board functions
-  bool CheckLine(int y) {
-    bool lineFilled = true;
-    for (int x = 1; x < width-1; x++) {
-      lineFilled = lineFilled && (board[x][y] != 0);
-    }
-    return lineFilled;
-  }
-
-  void ClearLine(int clearedY) {
-    for (int x = 1; x < width-1; x++) {
-      board[x][clearedY] = 0;
-      for (int y = clearedY-1; y >= 0; y--) {
-        board[x][y+1] = board[x][y];
-        board[x][y] = 0;
-      }
-    }
-  }
 
   // UI drawing functions
   void DrawTetrominoUI(Tetromino tetromino, int x, int y, float scale, const char* str) {
@@ -149,9 +83,6 @@ class TetrisGame {
   const static int height = 21;
   const int boardOffsetX = 0;
   const int boardOffsetY = 1;
-  const int renderScale = 25;
-  int renderPosX;
-  int renderPosY;
 
   int score = 0;
 
