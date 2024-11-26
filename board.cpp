@@ -9,7 +9,7 @@ Board::Board() {
   }
 }
 
-void Board::Draw(int renderX, int renderY, int scale, Color *colors) {
+void Board::Draw(int renderX, int renderY, int scale, const Color* colors) const {
   for (int y = 0; y < height-1; y++) {
     for (int x = 1; x < width-1; x++) {
       DrawRectangle((x)*scale+renderX,(y)*scale+renderY,scale,scale,colors[data[x][y]]);
