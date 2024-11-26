@@ -1,9 +1,19 @@
+#include <raylib.h>
 #include "board.hpp"
 
 Board::Board() {
   for (int j = 0; j < height; j++) {
     for (int i = 0; i < width; i++) {
       data[i][j] = 0;
+    }
+  }
+}
+
+void Board::Draw(int renderX, int renderY, int scale, Color *colors) {
+  for (int y = 0; y < height-1; y++) {
+    for (int x = 1; x < width-1; x++) {
+      DrawRectangle((x)*scale+renderX,(y)*scale+renderY,scale,scale,colors[data[x][y]]);
+      DrawRectangle((x)*scale+renderX+2,(y)*scale+renderY+2,scale-4,scale-4,ColorBrightness(colors[data[x][y]],-0.1f));
     }
   }
 }

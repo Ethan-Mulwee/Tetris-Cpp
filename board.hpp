@@ -10,6 +10,9 @@ struct Board {
 
   Board();
 
+  // Draw board
+  void Draw(int x, int y, int scale, Color* colors);
+
   // Add tetromino to board char array
   void Add(Tetromino tetromino, int x, int y);
 
