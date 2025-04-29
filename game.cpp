@@ -215,8 +215,12 @@ void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
   // Draw placed tetrominoes
   for (int y = 0; y < height-1; y++) {
     for (int x = 1; x < width-1; x++) {
-      DrawRectangle(RenderCordX((x+boardOffsetX)),RenderCordY((y+boardOffsetY)),renderScale,renderScale,colors[board[x][y]]);
-      DrawRectangle(RenderCordX((x+boardOffsetX))+2,RenderCordY((y+boardOffsetY))+2,renderScale-4,renderScale-4,ColorBrightness(colors[board[x][y]],-0.1f));
+      DrawRectangle(RenderCordX((x+boardOffsetX)),RenderCordY((y+boardOffsetY)),renderScale+3,renderScale+3,colors[board[x][y]]);
+      DrawRectangle(RenderCordX((x+boardOffsetX))+2,RenderCordY((y+boardOffsetY))+2,renderScale-1,renderScale-1,ColorBrightness(colors[board[x][y]],-0.1f));
+    
+      // DrawRectangle(RenderCordX((i+x+boardOffsetX)),RenderCordY((j+y+boardOffsetY)),renderScale,renderScale,colors[tetromino.shape[i][j]]);
+      // DrawRectangle(RenderCordX((i+x+boardOffsetX))+2,RenderCordY((j+y+boardOffsetY))+2,renderScale-4,renderScale-4,ColorBrightness(colors[tetromino.shape[i][j]],-0.1f));
+
     }
   }
 

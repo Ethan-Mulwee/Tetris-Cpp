@@ -9,7 +9,7 @@ App::App(int windowWidth, int windowHeight) {
   game.renderPosX = 0;
   game.renderPosY = 0;
 
-  game.gameSpeed = 100;
+  game.gameSpeed = 1;
 
   // TetrisAI ai;
   // ai.game = &game;
