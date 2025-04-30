@@ -1,6 +1,8 @@
 #include "game.hpp"
 
 #include <ctime>
+#include <fstream>
+#include <string>
 
 TetrisGame::TetrisGame() {
   // TODO: cleanup intialization code
@@ -21,6 +23,18 @@ TetrisGame::TetrisGame() {
   }
   activeTetromino = GetTetromino(tetrominoSelection);
   gameSpeed = 0.65f;
+
+  std::ifstream file("scores.txt");
+  std::string line;
+
+  if (file.is_open()) {
+      while (getline(file, line)) {
+        if (highscore < std::stoi(line))
+            highscore = std::stoi(line);
+    }
+      file.close();
+  }
+  std::cout << "highscore is: " << highscore << "\n";
 }
 
 Tetromino TetrisGame::GetTetromino(int selection)
@@ -62,6 +76,7 @@ void TetrisGame::Place() {
 }
 
 void TetrisGame::Next() {
+  if (over) return;
   activeX = 4;
   activeY = 0;
   tetrominoSelection++;
@@ -77,6 +92,11 @@ void TetrisGame::Next() {
   // Check for loss
   if (!TetrominoFits(activeTetromino, activeX, activeY)) {
     over = true;
+
+    std::string scoreString = std::to_string(score) + "\n";
+    std::ofstream file("scores.txt", std::ios::app);
+    file << scoreString;
+    file.close();
   }
   // game state
   logicTimer = std::chrono::duration<double>();
@@ -110,6 +130,7 @@ void TetrisGame::Shuffle(int* array) {
 }
 
 void TetrisGame::Update() {
+  if (over) return;
   auto currentUpdateTime = clock.now();
   deltaTime = currentUpdateTime - lastUpdateTime;
   lastUpdateTime = currentUpdateTime;
@@ -195,6 +216,17 @@ void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
 
   std::string scoreText = "SCORE: " + std::to_string(score);
   DrawText(scoreText.c_str(), RightX+20, TopY, 30, WHITE);
+
+  // Draw Highscore
+  DrawRectangle(RightX+15, TopY+205, 300, 30, Color{20,20,20,255});
+  DrawLine(RightX+15, TopY+205, RightX+15+300, TopY+205, WHITE);
+  DrawLine(RightX+15, TopY+205+30, RightX+15+300, TopY+205+30, WHITE);
+  DrawLine(RightX+15, TopY+205, RightX+15, TopY+205+30, WHITE);
+  DrawLine(RightX+15+300, TopY+205, RightX+15+300, TopY+205+30, WHITE);
+
+  std::string highscoreText = "HIGHSCORE: " + std::to_string(highscore);
+  DrawText(highscoreText.c_str(), RightX+20, TopY+205, 30, WHITE);
+
 
   // Draw Board shadow
   DrawRectangle(LeftX+5, TopY+5, RightX - LeftX, BottomY - TopY, Color{20,20,20,100});

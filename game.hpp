@@ -151,6 +151,7 @@ class TetrisGame {
   int renderPosY;
 
   int score = 0;
+  int highscore = 0;
 
   char board[width][height];
   int activeX = 4;
