@@ -24,7 +24,7 @@ TetrisGame::TetrisGame() {
   activeTetromino = GetTetromino(tetrominoSelection);
   gameSpeed = 0.65f;
 
-  std::ifstream file("scores.txt");
+  std::ifstream file("/home/ethan/.tetris/scores.txt");
   std::string line;
 
   if (file.is_open()) {
@@ -72,7 +72,7 @@ void TetrisGame::Place() {
   AddTetromino(activeTetromino, activeX, activeY);
   Check();
   Next();
-  // gameSpeed -= 0.05f*gameSpeed;
+  gameSpeed -= 0.015f*gameSpeed;
 }
 
 void TetrisGame::Next() {
@@ -94,7 +94,7 @@ void TetrisGame::Next() {
     over = true;
 
     std::string scoreString = std::to_string(score) + "\n";
-    std::ofstream file("scores.txt", std::ios::app);
+    std::ofstream file("/home/ethan/.tetris/scores.txt", std::ios::app);
     file << scoreString;
     file.close();
   }
@@ -176,15 +176,19 @@ void TetrisGame::Check() {
     case 0:
       break;
     case 1:
+      linesCleared += 1;
       score += 10;
       break;
     case 2:
+      linesCleared += 2;
       score += 20;
       break;
     case 3:
+      linesCleared += 3;
       score += 50;
       break;
     case 4:
+      linesCleared += 4;
       score += 100;
       break;
   }
@@ -226,6 +230,16 @@ void TetrisGame::Draw(float renderScale, float renderX, float renderY) {
 
   std::string highscoreText = "HIGHSCORE: " + std::to_string(highscore);
   DrawText(highscoreText.c_str(), RightX+20, TopY+205, 30, WHITE);
+
+  // Draw LinesCleared
+  DrawRectangle(RightX+15, TopY+245, 300, 30, Color{20,20,20,255});
+  DrawLine(RightX+15, TopY+245, RightX+15+300, TopY+245, WHITE);
+  DrawLine(RightX+15, TopY+245+30, RightX+15+300, TopY+245+30, WHITE);
+  DrawLine(RightX+15, TopY+245, RightX+15, TopY+245+30, WHITE);
+  DrawLine(RightX+15+300, TopY+245, RightX+15+300, TopY+245+30, WHITE);
+
+  std::string linesClearedText = "LINES CLEARED: " + std::to_string(linesCleared);
+  DrawText(linesClearedText.c_str(), RightX+20, TopY+245, 30, WHITE);
 
 
   // Draw Board shadow

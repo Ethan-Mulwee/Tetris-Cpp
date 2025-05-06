@@ -32,3 +32,4 @@
 *.app
 Tetris
 Tetris
+.vscode/settings.json
