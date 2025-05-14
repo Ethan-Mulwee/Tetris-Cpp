@@ -1,7 +1,6 @@
 #include <raylib.h>
 
 #include "app.hpp"
-#include "ai.hpp"
 
 App::App(int windowWidth, int windowHeight) {
   InitWindow(windowWidth, windowHeight, "Tetris");

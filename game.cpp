@@ -1,7 +1,6 @@
 #include "game.hpp"
 
 #include <ctime>
-#include <fstream>
 #include <string>
 
 TetrisGame::TetrisGame() {
@@ -24,17 +23,7 @@ TetrisGame::TetrisGame() {
   activeTetromino = GetTetromino(tetrominoSelection);
   gameSpeed = 0.65f;
 
-  std::ifstream file("/home/ethan/.tetris/scores.txt");
-  std::string line;
 
-  if (file.is_open()) {
-      while (getline(file, line)) {
-        if (highscore < std::stoi(line))
-            highscore = std::stoi(line);
-    }
-      file.close();
-  }
-  std::cout << "highscore is: " << highscore << "\n";
 }
 
 Tetromino TetrisGame::GetTetromino(int selection)
@@ -92,11 +81,6 @@ void TetrisGame::Next() {
   // Check for loss
   if (!TetrominoFits(activeTetromino, activeX, activeY)) {
     over = true;
-
-    std::string scoreString = std::to_string(score) + "\n";
-    std::ofstream file("/home/ethan/.tetris/scores.txt", std::ios::app);
-    file << scoreString;
-    file.close();
   }
   // game state
   logicTimer = std::chrono::duration<double>();
