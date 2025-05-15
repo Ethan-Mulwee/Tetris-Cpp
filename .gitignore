@@ -33,3 +33,6 @@
 Tetris
 Tetris
 .vscode/settings.json
+/node_modules
+package.json
+package-lock.json
